@@ -1,33 +1,39 @@
-extern crate glium;
+extern crate luminance;
 
-use glium::glutin;
-use glium::Surface;
+use luminance::context::GraphicsContext;
+use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowDim, WindowEvent, WindowOpt};
+use std::process::exit;
 
 
 fn main() {
-    let mut events_loop = glutin::EventsLoop::new();
-    let window_builder = glutin::WindowBuilder::new()
-        .with_dimensions((400.0, 400.0).into())
-        .with_title("Fragula");
-    let context_builder = glutin::ContextBuilder::new();
-    let display = glium::Display::new(window_builder, context_builder, &events_loop).unwrap();
+    let surface = GlfwSurface::new(WindowDim::Windowed(1200, 900), "Fragula", WindowOpt::default());
 
-    let mut closed = false;
+    match surface {
+        Ok(surface) => {
+            event_loop(surface);
+        }
 
-    while !closed {
-        let mut target = display.draw();
-        target.clear_color(0.122, 0.173, 0.227, 1.0);
-        target.finish().unwrap();
+        Err(e) => {
+            eprintln!("Error creating surface.\n{}", e);
+            exit(1);
+        }
+    }
+}
 
-        events_loop.poll_events(|event| {
+fn event_loop(mut surface: GlfwSurface) {
+    let back_buffer = surface.back_buffer().unwrap();
+
+    'run: loop {
+        for event in surface.poll_events() {
             match event {
-                glutin::Event::WindowEvent {event, .. } => match event {
-                    glutin::WindowEvent::CloseRequested => closed = true,
-                    _ => (),
-                },
+                WindowEvent::Close | WindowEvent::Key(Key::Escape, _, Action::Release, _) => break 'run,
                 _ => (),
             }
-        });
+        }
 
+        let color = [0.122, 0.173, 0.227, 1.0];
+
+        surface.pipeline_builder().pipeline(&back_buffer, color, |_, _| ());
+        surface.swap_buffers();
     }
 }
