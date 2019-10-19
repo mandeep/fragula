@@ -2,21 +2,14 @@ extern crate luminance;
 
 use luminance::context::GraphicsContext;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowDim, WindowEvent, WindowOpt};
-use std::process::exit;
-
 
 fn main() {
     let surface = GlfwSurface::new(WindowDim::Windowed(1200, 900), "Fragula", WindowOpt::default());
 
-    match surface {
-        Ok(surface) => {
-            event_loop(surface);
-        }
-
-        Err(e) => {
-            eprintln!("Error creating surface.\n{}", e);
-            exit(1);
-        }
+    if let Ok(surface) = surface {
+        event_loop(surface);
+    } else {
+        panic!("Could not create surface.");
     }
 }
 
