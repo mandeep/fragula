@@ -29,7 +29,7 @@ fn render_loop(mut surface: GlfwSurface) {
                                  z_near,
                                  z_far);
 
-    let view = Matrix4::<f32>::look_at(Point3::new(2.0, 2.0, 2.0),
+    let view = Matrix4::<f32>::look_at(Point3::new(0.0, 0.5, 4.0),
                                        Point3::origin(),
                                        Vector3::unit_y());
 
