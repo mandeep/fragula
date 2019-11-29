@@ -7,5 +7,7 @@ edition = "2018"
 [dependencies]
 luminance = "0.37.1"
 luminance-glfw = "0.11.0"
+luminance-derive = "0.5"
 glsl = "1.2.0"
-tobj = "0.1.11"
+try-guard = "0.2.0"
+wavefront_obj = "7.0.0"
