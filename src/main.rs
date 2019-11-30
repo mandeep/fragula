@@ -30,9 +30,10 @@ fn render_loop(mut surface: GlfwSurface) {
                                  z_near,
                                  z_far);
 
-    let view = Matrix4::<f32>::look_at(Point3::new(0.0, 0.5, 4.0),
-                                       Point3::origin(),
-                                       Vector3::unit_y());
+    let mut eye = Point3::new(0.0, 0.5, 4.0);
+    let center = Point3::origin();
+    let up = Vector3::unit_y();
+    let mut view = Matrix4::<f32>::look_at(eye, center, up);
 
     let mesh = Obj::load(path).unwrap().to_tess(&mut surface).unwrap();
 
