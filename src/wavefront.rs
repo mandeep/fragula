@@ -8,9 +8,7 @@ use luminance::tess::{Mode, Tess, TessBuilder, TessError};
 use try_guard::verify;
 use wavefront_obj::obj;
 
-
 use crate::vertex::{Vertex, VertexIndex, VertexNormal, VertexPosition};
-
 
 #[derive(Debug)]
 pub struct Obj {
@@ -18,14 +16,12 @@ pub struct Obj {
     indices: Vec<VertexIndex>,
 }
 
-
 impl Obj {
     pub fn to_tess<C: GraphicsContext>(self, ctx: &mut C) -> Result<Tess, TessError> {
-        TessBuilder::new(ctx)
-            .set_mode(Mode::Triangle)
-            .add_vertices(self.vertices)
-            .set_indices(self.indices)
-            .build()
+        TessBuilder::new(ctx).set_mode(Mode::Triangle)
+                             .add_vertices(self.vertices)
+                             .set_indices(self.indices)
+                             .build()
     }
 
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, String> {
@@ -61,7 +57,8 @@ impl Obj {
                         let n = object.normals[key.2.ok_or("Missing vertex normals".to_owned())?];
                         let position = VertexPosition::new([p.x as f32, p.y as f32, p.z as f32]);
                         let normal = VertexNormal::new([n.x as f32, n.y as f32, n.z as f32]);
-                        let vertex = Vertex { position: position, normal: normal };
+                        let vertex = Vertex { position: position,
+                                              normal: normal };
                         let vertex_index = vertices.len() as VertexIndex;
 
                         vertex_cache.insert(*key, vertex_index);

@@ -5,7 +5,7 @@ mod wavefront;
 use std::env;
 use std::f32::consts::PI;
 
-use cgmath::{EuclideanSpace, Matrix4, Point3, Rad, Vector3, perspective};
+use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, Vector3};
 use luminance::context::GraphicsContext;
 use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
@@ -16,9 +16,10 @@ use crate::shader::ShaderInterface;
 use crate::vertex::VertexSemantics;
 use crate::wavefront::Obj;
 
-
 fn render_loop(mut surface: GlfwSurface) {
-    let path = env::args().skip(1).next().expect("First argument must be the path to the obj.");
+    let path = env::args().skip(1)
+                          .next()
+                          .expect("First argument must be the path to the obj.");
 
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;
@@ -38,12 +39,9 @@ fn render_loop(mut surface: GlfwSurface) {
     let vertex_shader = include_str!("vertex.glsl");
     let fragment_shader = include_str!("fragment.glsl");
 
-    let program: Program<VertexSemantics, (), ShaderInterface> = Program::from_strings(None,
-                                                                                 vertex_shader,
-                                                                                 None,
-                                                                                 fragment_shader)
-        .unwrap()
-        .ignore_warnings();
+    let program: Program<VertexSemantics, (), ShaderInterface> =
+        Program::from_strings(None, vertex_shader, None, fragment_shader).unwrap()
+                                                                         .ignore_warnings();
 
     let back_buffer = surface.back_buffer().unwrap();
 
@@ -62,19 +60,18 @@ fn render_loop(mut surface: GlfwSurface) {
         surface.pipeline_builder()
                .pipeline(&back_buffer, color, |_, mut shd_gate| {
                    shd_gate.shade(&program, |interface, mut rdr_gate| {
-                        interface.projection.update(projection.into());
-                        interface.view.update(view.into());
+                               interface.projection.update(projection.into());
+                               interface.view.update(view.into());
 
-                        rdr_gate.render(RenderState::default(), |mut tess_gate| {
-                            tess_gate.render(mesh.slice(..));
-                        });
-                   });
+                               rdr_gate.render(RenderState::default(), |mut tess_gate| {
+                                           tess_gate.render(mesh.slice(..));
+                                       });
+                           });
                });
 
         surface.swap_buffers();
     }
 }
-
 
 fn main() {
     let surface = GlfwSurface::new(WindowDim::Windowed(1200, 900),
