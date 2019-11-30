@@ -7,4 +7,5 @@ pub struct ShaderInterface {
     #[uniform(unbound)]
     pub projection: Uniform<M44>,
     pub view: Uniform<M44>,
+    pub rotation: Uniform<M44>,
 }
