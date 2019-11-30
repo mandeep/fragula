@@ -62,6 +62,26 @@ fn render_loop(mut surface: GlfwSurface) {
                     eye.z += 0.1;
                     view = Matrix4::<f32>::look_at(eye, center, up);
                 }
+                WindowEvent::Key(Key::A, _, Action::Release, _)
+                | WindowEvent::Key(Key::A, _, Action::Repeat, _) => {
+                    eye.x -= 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
+                }
+                WindowEvent::Key(Key::D, _, Action::Release, _)
+                | WindowEvent::Key(Key::D, _, Action::Repeat, _) => {
+                    eye.x += 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
+                }
+                WindowEvent::Key(Key::Q, _, Action::Release, _)
+                | WindowEvent::Key(Key::Q, _, Action::Repeat, _) => {
+                    eye.y -= 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
+                }
+                WindowEvent::Key(Key::E, _, Action::Release, _)
+                | WindowEvent::Key(Key::E, _, Action::Repeat, _) => {
+                    eye.y += 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
+                }
                 _ => (),
             }
         }
