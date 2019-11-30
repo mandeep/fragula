@@ -5,7 +5,7 @@ mod wavefront;
 use std::env;
 use std::f32::consts::PI;
 
-use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, Vector3};
+use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, SquareMatrix, Rad, Vector3};
 use luminance::context::GraphicsContext;
 use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
@@ -30,10 +30,13 @@ fn render_loop(mut surface: GlfwSurface) {
                                  z_near,
                                  z_far);
 
-    let mut eye = Point3::new(0.0, 0.5, 4.0);
+    let eye = Point3::new(0.0, 0.5, 4.0);
     let center = Point3::origin();
     let up = Vector3::unit_y();
-    let mut view = Matrix4::<f32>::look_at(eye, center, up);
+    let view = Matrix4::<f32>::look_at(eye, center, up);
+
+    let (mut x_angle, mut y_angle, mut z_angle) = (1.0, 1.0, 1.0);
+    let mut rotation: Matrix4<f32> = SquareMatrix::identity();
 
     let mesh = Obj::load(path).unwrap().to_tess(&mut surface).unwrap();
 
@@ -54,33 +57,39 @@ fn render_loop(mut surface: GlfwSurface) {
                 }
                 WindowEvent::Key(Key::W, _, Action::Release, _)
                 | WindowEvent::Key(Key::W, _, Action::Repeat, _) => {
-                    eye.z -= 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    x_angle += 1.0;
+                    let rotation_angle = Rad(x_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_x(rotation_angle);
                 }
                 WindowEvent::Key(Key::S, _, Action::Release, _)
                 | WindowEvent::Key(Key::S, _, Action::Repeat, _) => {
-                    eye.z += 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    x_angle -= 1.0;
+                    let rotation_angle = Rad(x_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_x(rotation_angle);
                 }
                 WindowEvent::Key(Key::A, _, Action::Release, _)
                 | WindowEvent::Key(Key::A, _, Action::Repeat, _) => {
-                    eye.x -= 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    y_angle += 1.0;
+                    let rotation_angle = Rad(y_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_y(rotation_angle);
                 }
                 WindowEvent::Key(Key::D, _, Action::Release, _)
                 | WindowEvent::Key(Key::D, _, Action::Repeat, _) => {
-                    eye.x += 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    y_angle -= 1.0;
+                    let rotation_angle = Rad(y_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_y(rotation_angle);
                 }
                 WindowEvent::Key(Key::Q, _, Action::Release, _)
                 | WindowEvent::Key(Key::Q, _, Action::Repeat, _) => {
-                    eye.y -= 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    z_angle += 1.0;
+                    let rotation_angle = Rad(z_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_z(rotation_angle);
                 }
                 WindowEvent::Key(Key::E, _, Action::Release, _)
                 | WindowEvent::Key(Key::E, _, Action::Repeat, _) => {
-                    eye.y += 0.1;
-                    view = Matrix4::<f32>::look_at(eye, center, up);
+                    z_angle -= 1.0;
+                    let rotation_angle = Rad(z_angle * PI / 180.0);
+                    rotation = Matrix4::from_angle_z(rotation_angle);
                 }
                 _ => (),
             }
@@ -93,6 +102,7 @@ fn render_loop(mut surface: GlfwSurface) {
                    shd_gate.shade(&program, |interface, mut rdr_gate| {
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
+                               interface.rotation.update(rotation.into());
 
                                rdr_gate.render(RenderState::default(), |mut tess_gate| {
                                            tess_gate.render(mesh.slice(..));
