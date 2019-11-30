@@ -30,10 +30,10 @@ fn render_loop(mut surface: GlfwSurface) {
                                  z_near,
                                  z_far);
 
-    let eye = Point3::new(0.0, 0.5, 4.0);
+    let mut eye = Point3::new(0.0, 0.5, 4.0);
     let center = Point3::origin();
     let up = Vector3::unit_y();
-    let view = Matrix4::<f32>::look_at(eye, center, up);
+    let mut view = Matrix4::<f32>::look_at(eye, center, up);
 
     let (mut x_angle, mut y_angle, mut z_angle) = (1.0, 1.0, 1.0);
     let mut rotation: Matrix4<f32> = SquareMatrix::identity();
@@ -90,6 +90,16 @@ fn render_loop(mut surface: GlfwSurface) {
                     z_angle -= 1.0;
                     let rotation_angle = Rad(z_angle * PI / 180.0);
                     rotation = Matrix4::from_angle_z(rotation_angle);
+                }
+                WindowEvent::Key(Key::Z, _, Action::Release, _)
+                | WindowEvent::Key(Key::Z, _, Action::Repeat, _) => {
+                    eye.z += 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
+                }
+                WindowEvent::Key(Key::X, _, Action::Release, _)
+                | WindowEvent::Key(Key::X, _, Action::Repeat, _) => {
+                    eye.z -= 0.1;
+                    view = Matrix4::<f32>::look_at(eye, center, up);
                 }
                 _ => (),
             }
