@@ -8,4 +8,5 @@ pub struct ShaderInterface {
     pub projection: Uniform<M44>,
     pub view: Uniform<M44>,
     pub rotation: Uniform<M44>,
+    pub translation: Uniform<M44>,
 }
