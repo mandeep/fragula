@@ -4,8 +4,10 @@ mod wavefront;
 
 use std::env;
 use std::f32::consts::PI;
+use std::fs::File;
+use std::io::prelude::*;
 
-use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, SquareMatrix, Rad, Vector3};
+use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, SquareMatrix, Vector3};
 use luminance::context::GraphicsContext;
 use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
@@ -17,9 +19,11 @@ use crate::vertex::VertexSemantics;
 use crate::wavefront::Obj;
 
 fn render_loop(mut surface: GlfwSurface) {
-    let path = env::args().skip(1)
-                          .next()
-                          .unwrap_or(String::from("suzanne.obj"));
+    let obj_path = env::args().skip(1)
+                              .next()
+                              .unwrap_or(String::from("suzanne.obj"));
+
+    let fragment_path = env::args().skip(2).next();
 
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;
@@ -41,10 +45,15 @@ fn render_loop(mut surface: GlfwSurface) {
     let mut xyz_axis = Vector3::new(0.0, 0.0, 0.0);
     let mut translation: Matrix4<f32> = SquareMatrix::identity();
 
-    let mesh = Obj::load(path).unwrap().to_tess(&mut surface).unwrap();
+    let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
     let vertex_shader = include_str!("vertex.glsl");
-    let fragment_shader = include_str!("fragment.glsl");
+
+    let mut fragment_file =
+        File::open(fragment_path.unwrap_or(String::from("src/fragment.glsl"))).unwrap();
+    let mut contents = String::new();
+    fragment_file.read_to_string(&mut contents).unwrap();
+    let fragment_shader = &contents;
 
     let program: Program<VertexSemantics, (), ShaderInterface> =
         Program::from_strings(None, vertex_shader, None, fragment_shader).unwrap()
