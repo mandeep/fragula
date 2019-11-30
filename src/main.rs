@@ -19,7 +19,7 @@ use crate::wavefront::Obj;
 fn render_loop(mut surface: GlfwSurface) {
     let path = env::args().skip(1)
                           .next()
-                          .expect("First argument must be the path to the obj.");
+                          .unwrap_or(String::from("suzanne.obj"));
 
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;
