@@ -1,3 +1,7 @@
+// this is a simple fragment shader used as the default
+// fragment shader in case a user-defined fragment
+// shader is not passed as a commandline argument
+
 in vec3 vertex_normal;
 
 out vec3 frag_color;
