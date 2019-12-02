@@ -139,6 +139,19 @@ fn render_loop(mut surface: GlfwSurface) {
             }
         }
 
+        if !collector.is_empty() {
+            // collector.recv().unwrap();
+            let mut updated_fragment_file = File::open(&updated_path).unwrap();
+            let mut updated_contents = String::new();
+            updated_fragment_file.read_to_string(&mut updated_contents)
+                                 .unwrap();
+            let updated_fragment_shader = &updated_contents;
+            program =
+                Program::from_strings(None, vertex_shader, None, updated_fragment_shader)
+                    .unwrap()
+                    .ignore_warnings();
+        }
+
         let color = [0.122, 0.173, 0.227, 1.0];
 
         surface.pipeline_builder()
