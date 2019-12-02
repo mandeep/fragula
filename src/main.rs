@@ -1,3 +1,5 @@
+#![feature(option_result_contains)]
+
 mod shader;
 mod vertex;
 mod wavefront;
@@ -15,7 +17,7 @@ use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowDim, WindowEvent, WindowOpt};
-use notify::{immediate_watcher, RecursiveMode, Watcher};
+use notify::{immediate_watcher, Op, RecursiveMode, Watcher};
 
 use crate::shader::ShaderInterface;
 use crate::vertex::VertexSemantics;
@@ -142,16 +144,18 @@ fn render_loop(mut surface: GlfwSurface) {
         }
 
         if !collector.is_empty() {
-            // collector.recv().unwrap();
-            let mut updated_fragment_file = File::open(&updated_path).unwrap();
-            let mut updated_contents = String::new();
-            updated_fragment_file.read_to_string(&mut updated_contents)
-                                 .unwrap();
-            let updated_fragment_shader = &updated_contents;
-            program =
-                Program::from_strings(None, vertex_shader, None, updated_fragment_shader)
-                    .unwrap()
-                    .ignore_warnings();
+            let event = collector.recv().unwrap();
+            if event.op.contains(&Op::CLOSE_WRITE) {
+                let mut updated_fragment_file = File::open(&updated_path).unwrap();
+                let mut updated_contents = String::new();
+                updated_fragment_file.read_to_string(&mut updated_contents)
+                                     .unwrap();
+                let updated_fragment_shader = &updated_contents;
+                program =
+                    Program::from_strings(None, vertex_shader, None, updated_fragment_shader)
+                        .unwrap()
+                        .ignore_warnings();
+            }
         }
 
         let color = [0.122, 0.173, 0.227, 1.0];
