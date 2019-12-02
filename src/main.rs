@@ -145,7 +145,7 @@ fn render_loop(mut surface: GlfwSurface) {
 
         if !collector.is_empty() {
             let event = collector.recv().unwrap();
-            if event.op.contains(&Op::WRITE) {
+            if event.op.contains(&Op::CLOSE_WRITE) {
                 let mut updated_fragment_file = File::open(&updated_path).unwrap();
                 let mut updated_contents = String::new();
                 updated_fragment_file.read_to_string(&mut updated_contents)
