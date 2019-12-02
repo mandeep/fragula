@@ -56,7 +56,7 @@ fn render_loop(mut surface: GlfwSurface) {
     fragment_file.read_to_string(&mut contents).unwrap();
     let fragment_shader = &contents;
 
-    let program: Program<VertexSemantics, (), ShaderInterface> =
+    let mut program: Program<VertexSemantics, (), ShaderInterface> =
         Program::from_strings(None, vertex_shader, None, fragment_shader).unwrap()
                                                                          .ignore_warnings();
 
