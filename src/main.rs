@@ -75,12 +75,14 @@ fn render_loop(mut surface: GlfwSurface) {
         watcher.watch(fragment_path, RecursiveMode::NonRecursive)
                .unwrap();
 
-        match receiver.recv() {
-            Ok(event) => {
-                messenger.send(event).unwrap();
-            }
-            Err(err) => println!("watch error: {:?}", err),
-        };
+        loop {
+            match receiver.recv() {
+                Ok(event) => {
+                    messenger.send(event).unwrap();
+                }
+                Err(err) => println!("watch error: {:?}", err),
+            };
+        }
     });
 
     'run: loop {
