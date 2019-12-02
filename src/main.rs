@@ -23,7 +23,9 @@ fn render_loop(mut surface: GlfwSurface) {
                               .next()
                               .unwrap_or(String::from("suzanne.obj"));
 
-    let fragment_path = env::args().skip(2).next();
+    let fragment_path = env::args().skip(2)
+                                   .next()
+                                   .unwrap_or(String::from("src/fragment.glsl"));
 
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;
@@ -49,8 +51,7 @@ fn render_loop(mut surface: GlfwSurface) {
 
     let vertex_shader = include_str!("vertex.glsl");
 
-    let mut fragment_file =
-        File::open(fragment_path.unwrap_or(String::from("src/fragment.glsl"))).unwrap();
+    let mut fragment_file = File::open(&fragment_path).unwrap();
     let mut contents = String::new();
     fragment_file.read_to_string(&mut contents).unwrap();
     let fragment_shader = &contents;
