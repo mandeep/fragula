@@ -69,25 +69,25 @@ fn render_loop(mut surface: GlfwSurface) {
                 }
                 WindowEvent::Key(Key::W, _, Action::Release, _)
                 | WindowEvent::Key(Key::W, _, Action::Repeat, _) => {
-                    x_angle += 1.0;
+                    x_angle -= 1.0;
                     let rotation_angle = Rad(x_angle * PI / 180.0);
                     rotation = Matrix4::from_angle_x(rotation_angle);
                 }
                 WindowEvent::Key(Key::S, _, Action::Release, _)
                 | WindowEvent::Key(Key::S, _, Action::Repeat, _) => {
-                    x_angle -= 1.0;
+                    x_angle += 1.0;
                     let rotation_angle = Rad(x_angle * PI / 180.0);
                     rotation = Matrix4::from_angle_x(rotation_angle);
                 }
                 WindowEvent::Key(Key::A, _, Action::Release, _)
                 | WindowEvent::Key(Key::A, _, Action::Repeat, _) => {
-                    y_angle += 1.0;
+                    y_angle -= 1.0;
                     let rotation_angle = Rad(y_angle * PI / 180.0);
                     rotation = Matrix4::from_angle_y(rotation_angle);
                 }
                 WindowEvent::Key(Key::D, _, Action::Release, _)
                 | WindowEvent::Key(Key::D, _, Action::Repeat, _) => {
-                    y_angle -= 1.0;
+                    y_angle += 1.0;
                     let rotation_angle = Rad(y_angle * PI / 180.0);
                     rotation = Matrix4::from_angle_y(rotation_angle);
                 }
