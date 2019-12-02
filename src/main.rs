@@ -6,13 +6,16 @@ use std::env;
 use std::f32::consts::PI;
 use std::fs::File;
 use std::io::prelude::*;
+use std::thread;
 
 use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, SquareMatrix, Vector3};
+use crossbeam_channel::unbounded;
 use luminance::context::GraphicsContext;
 use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowDim, WindowEvent, WindowOpt};
+use notify::{immediate_watcher, RecursiveMode, Watcher};
 
 use crate::shader::ShaderInterface;
 use crate::vertex::VertexSemantics;
@@ -61,6 +64,24 @@ fn render_loop(mut surface: GlfwSurface) {
                                                                          .ignore_warnings();
 
     let back_buffer = surface.back_buffer().unwrap();
+
+    let (sender, receiver) = unbounded();
+    let (messenger, collector) = (sender.clone(), receiver.clone());
+
+    let updated_path = fragment_path.clone();
+
+    thread::spawn(move || {
+        let mut watcher = immediate_watcher(sender).unwrap();
+        watcher.watch(fragment_path, RecursiveMode::NonRecursive)
+               .unwrap();
+
+        match receiver.recv() {
+            Ok(event) => {
+                messenger.send(event).unwrap();
+            }
+            Err(err) => println!("watch error: {:?}", err),
+        };
+    });
 
     'run: loop {
         for event in surface.poll_events() {
