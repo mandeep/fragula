@@ -2,7 +2,12 @@
 name = "fragula"
 version = "0.1.0"
 authors = ["mandeep <mandeep@users.noreply.github.com>"]
+license = "Apache-2.0"
 edition = "2018"
+description = "View shaders in real-time"
+homepage = "https://github.com/mandeep/fragula"
+documentation = "https://github.com/mandeep/fragula"
+repository = "https://github.com/mandeep/fragula"
 
 [dependencies]
 cgmath = "0.17.0"
