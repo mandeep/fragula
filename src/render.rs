@@ -18,7 +18,6 @@ use crate::wavefront::Obj;
 
 
 pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String) {
-
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;
     let z_far = 10.0;
@@ -33,7 +32,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let up = Vector3::unit_y();
     let view = Matrix4::<f32>::look_at(eye, center, up);
 
-    let (mut x_angle, mut y_angle, mut z_angle) = (1.0, 1.0, 1.0);
+    let (mut x_angle, mut y_angle, mut z_angle) = (0.0, 0.0, 0.0);
     let mut rotation: Matrix4<f32> = SquareMatrix::identity();
 
     let mut xyz_axis = Vector3::new(0.0, 0.0, 0.0);
