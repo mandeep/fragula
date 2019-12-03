@@ -10,12 +10,11 @@ use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowEvent};
-use notify::{immediate_watcher, Op, RecursiveMode, Watcher};
+use notify::{immediate_watcher, RecursiveMode, Watcher};
 
 use crate::shader::ShaderInterface;
 use crate::vertex::VertexSemantics;
 use crate::wavefront::Obj;
-
 
 pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String) {
     let fov = Rad(PI / 2.0);
@@ -131,16 +130,20 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
 
         if !collector.is_empty() {
             let event = collector.recv().unwrap();
-            if event.op.contains(&Op::CLOSE_WRITE) {
-                let mut updated_fragment_file = File::open(&updated_path).unwrap();
-                let mut updated_contents = String::new();
-                updated_fragment_file.read_to_string(&mut updated_contents)
-                                     .unwrap();
-                let updated_fragment_shader = &updated_contents;
-                program =
-                    Program::from_strings(None, vertex_shader, None, updated_fragment_shader)
-                        .unwrap()
-                        .ignore_warnings();
+            match event.op {
+                Ok(_) => {
+                    let mut updated_fragment_file = File::open(&updated_path).unwrap();
+                    let mut updated_contents = String::new();
+                    updated_fragment_file.read_to_string(&mut updated_contents)
+                                         .unwrap();
+                    let updated_fragment_shader = &updated_contents;
+                    program = Program::from_strings(None,
+                                                    vertex_shader,
+                                                    None,
+                                                    updated_fragment_shader).unwrap()
+                                                                            .ignore_warnings();
+                }
+                Err(e) => println!("Error with event: {:?}", e),
             }
         }
 

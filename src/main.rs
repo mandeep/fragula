@@ -1,4 +1,3 @@
-#![feature(option_result_contains)]
 use std::env;
 
 mod render;
@@ -9,7 +8,6 @@ mod wavefront;
 use luminance_glfw::{GlfwSurface, Surface, WindowDim, WindowOpt};
 
 use crate::render::render_loop;
-
 
 fn main() {
     let obj_path = env::args().skip(1)
