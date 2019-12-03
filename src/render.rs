@@ -1,4 +1,3 @@
-use std::env;
 use std::f32::consts::PI;
 use std::fs::File;
 use std::io::prelude::*;
@@ -18,14 +17,7 @@ use crate::vertex::VertexSemantics;
 use crate::wavefront::Obj;
 
 
-pub fn render_loop(mut surface: GlfwSurface) {
-    let obj_path = env::args().skip(1)
-                              .next()
-                              .unwrap_or(String::from("suzanne.obj"));
-
-    let fragment_path = env::args().skip(2)
-                                   .next()
-                                   .unwrap_or(String::from("src/fragment.glsl"));
+pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String) {
 
     let fov = Rad(PI / 2.0);
     let z_near = 0.1;

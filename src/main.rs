@@ -1,4 +1,5 @@
 #![feature(option_result_contains)]
+use std::env;
 
 mod render;
 mod shader;
@@ -11,12 +12,20 @@ use crate::render::render_loop;
 
 
 fn main() {
+    let obj_path = env::args().skip(1)
+                              .next()
+                              .unwrap_or(String::from("suzanne.obj"));
+
+    let fragment_path = env::args().skip(2)
+                                   .next()
+                                   .unwrap_or(String::from("src/fragment.glsl"));
+
     let surface = GlfwSurface::new(WindowDim::Windowed(1200, 900),
                                    "Fragula",
                                    WindowOpt::default());
 
     if let Ok(surface) = surface {
-        render_loop(surface);
+        render_loop(surface, obj_path, fragment_path);
     } else {
         panic!("Could not create surface.");
     }
