@@ -37,27 +37,17 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let mut xyz_axis = Vector3::new(0.0, 0.0, 0.0);
     let mut translation: Matrix4<f32> = SquareMatrix::identity();
 
-    let mut obj = include_str!("suzanne.obj");
-
-    let mut obj_contents = String::new();
-
-    if obj_path != "" {
-        let mut obj_file = File::open(obj_path).unwrap();
-        obj_file.read_to_string(&mut obj_contents).unwrap();
-        obj = obj_contents.as_str();
-    };
-
-    let mesh = Obj::load(obj).unwrap().to_tess(&mut surface).unwrap();
+    let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
     let vertex_shader = include_str!("vertex.glsl");
     let mut fragment_shader = include_str!("fragment.glsl");
 
-    let mut fragment_shader_contents = String::new();
+    let mut contents = String::new();
 
     if fragment_path != "" {
         let mut fragment_file = File::open(&fragment_path).unwrap();
-        fragment_file.read_to_string(&mut fragment_shader_contents).unwrap();
-        fragment_shader = fragment_shader_contents.as_str();
+        fragment_file.read_to_string(&mut contents).unwrap();
+        fragment_shader = contents.as_str();
     }
 
     let mut program: Program<VertexSemantics, (), ShaderInterface> =
