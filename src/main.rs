@@ -12,11 +12,11 @@ use crate::render::render_loop;
 fn main() {
     let obj_path = env::args().skip(1)
                               .next()
-                              .unwrap_or(String::from("suzanne.obj"));
+                              .unwrap_or(String::from(""));
 
     let fragment_path = env::args().skip(2)
                                    .next()
-                                   .unwrap_or(String::from("src/fragment.glsl"));
+                                   .unwrap_or(String::from(""));
 
     let surface = GlfwSurface::new(WindowDim::Windowed(1200, 900),
                                    "Fragula",
