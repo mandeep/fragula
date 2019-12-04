@@ -1,7 +1,4 @@
 use std::collections::HashMap;
-use std::fs::File;
-use std::io::Read as _;
-use std::path::Path;
 
 use luminance::context::GraphicsContext;
 use luminance::tess::{Mode, Tess, TessBuilder, TessError};
@@ -24,15 +21,8 @@ impl Obj {
                              .build()
     }
 
-    pub fn load<P: AsRef<Path>>(path: P) -> Result<Self, String> {
-        let file_contents = {
-            let mut file = File::open(path).map_err(|e| format!("Cannot open file: {}", e))?;
-            let mut contents = String::new();
-            file.read_to_string(&mut contents).unwrap();
-            contents
-        };
-
-        let obj_set = obj::parse(file_contents).map_err(|e| format!("Cannot parse: {:?}", e))?;
+    pub fn load(obj_contents: &str) -> Result<Self, String> {
+        let obj_set = obj::parse(obj_contents).map_err(|e| format!("Cannot parse: {:?}", e))?;
         let objects = obj_set.objects;
 
         verify!(objects.len() == 1).ok_or("Expecting a single object".to_owned())?;
