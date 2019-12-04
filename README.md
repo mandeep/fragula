@@ -9,4 +9,6 @@ Installation
 
 To install Fragula run `cargo install fragula` in a terminal prompt.
 
+Demo
+====
 ![demo](demo.gif)
