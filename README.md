@@ -9,6 +9,17 @@ Installation
 
 To install Fragula run `cargo install fragula` in a terminal prompt.
 
+Usage
+=====
+
+To use Fragula you can run `fragula` in the terminal to use the default
+vertex and fragment shader with the Suzanne obj model. You can optionally
+pass your own obj file and fragment shader in the following fashion:
+
+    fragula my_3d_model.obj
+or
+    fragula my_3d_model.obj fragment.glsl
+
 Demo
 ====
 ![demo](demo.gif)
