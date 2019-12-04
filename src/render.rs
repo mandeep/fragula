@@ -40,15 +40,11 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
     let vertex_shader = include_str!("vertex.glsl");
-    let mut fragment_shader = include_str!("fragment.glsl");
 
+    let mut fragment_file = File::open(&fragment_path).unwrap();
     let mut contents = String::new();
-
-    if fragment_path != "" {
-        let mut fragment_file = File::open(&fragment_path).unwrap();
-        fragment_file.read_to_string(&mut contents).unwrap();
-        fragment_shader = contents.as_str();
-    }
+    fragment_file.read_to_string(&mut contents).unwrap();
+    let fragment_shader = &contents;
 
     let mut program: Program<VertexSemantics, (), ShaderInterface> =
         Program::from_strings(None, vertex_shader, None, fragment_shader).unwrap()
