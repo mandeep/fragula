@@ -10,8 +10,9 @@ const float PI = 3.14159265359;
 
 void main() {
 	float sigma = 0.8;
-	float alpha = 1.0 / (PI + (PI/2.0 - 2.0/3.0) * sigma);
-	float beta = sigma / (PI + (PI/2.0 - 2.0/3.0) * sigma);
+	float constant = PI + sigma * (3.0 * PI - 4.0) / 6.0;
+	float alpha = 1.0 / constant;
+	float beta = sigma / constant;
 
     vec3 light_direction = vec3(0.0, 1.5, 0.75);
     vec3 view_direction = vec3(0.0, 5.0, 5.0);
