@@ -28,5 +28,5 @@ void main() {
 		t = max(nl, nv);
 	}
 
-    frag_color = albedo * nl * (alpha + (beta * (s / t)));
+    frag_color = albedo * nl * (alpha + beta * s / t);
 }
