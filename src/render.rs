@@ -1,6 +1,7 @@
 use std::f32::consts::PI;
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 use std::thread;
 
 use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, SquareMatrix, Vector3};
@@ -10,7 +11,7 @@ use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowEvent};
-use notify::{immediate_watcher, RecursiveMode, Watcher};
+use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 
 use crate::shader::ShaderInterface;
 use crate::vertex::VertexSemantics;
@@ -41,6 +42,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
 
     let vertex_shader = include_str!("vertex.glsl");
 
+    let fragment_dirpath = Path::new(&fragment_path).parent().unwrap().display().to_string();
     let mut fragment_file = File::open(&fragment_path).unwrap();
     let mut contents = String::new();
     fragment_file.read_to_string(&mut contents).unwrap();
@@ -58,8 +60,8 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let updated_path = fragment_path.clone();
 
     thread::spawn(move || {
-        let mut watcher = immediate_watcher(sender).unwrap();
-        watcher.watch(fragment_path, RecursiveMode::NonRecursive)
+        let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
+        watcher.watch(fragment_dirpath, RecursiveMode::Recursive)
                .unwrap();
 
         loop {
