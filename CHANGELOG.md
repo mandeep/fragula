@@ -1,12 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2020-01-04
+### Changed
+- Watch the fragment shader file parent directory non-recursively instead of recursively
+
+
 ## [0.2.0] - 2020-01-04
 ### Added
 - Added this CHANGELOG to the project
 
 ### Changed
-- Watch fragment shader file directory rather than only the file
+- Watch the fragment shader file directory rather than only watching the file
 
 
 ## [0.1.4] - 2019-12-29
