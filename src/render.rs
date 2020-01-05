@@ -61,7 +61,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
 
     thread::spawn(move || {
         let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
-        watcher.watch(fragment_dirpath, RecursiveMode::Recursive)
+        watcher.watch(fragment_dirpath, RecursiveMode::NonRecursive)
                .unwrap();
 
         loop {
