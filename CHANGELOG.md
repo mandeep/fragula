@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2020-01-07
+### Changed
+- Update fragula dependencies and pin notify-rs due to alpha semver breaking changes
+
+
 ## [0.2.1] - 2020-01-04
 ### Changed
 - Watch the fragment shader file parent directory non-recursively instead of recursively
