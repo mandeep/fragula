@@ -43,7 +43,10 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
 
     let vertex_shader = include_str!("vertex.glsl");
 
-    let fragment_dirpath = Path::new(&fragment_path).parent().unwrap().display().to_string();
+    let fragment_dirpath = Path::new(&fragment_path).parent()
+                                                    .unwrap()
+                                                    .display()
+                                                    .to_string();
     let mut fragment_file = File::open(&fragment_path).unwrap();
     let mut contents = String::new();
     fragment_file.read_to_string(&mut contents).unwrap();
@@ -152,10 +155,11 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
 
         let color = [0.122, 0.173, 0.227, 1.0];
 
-        surface.pipeline_builder()
-               .pipeline(&back_buffer,
-                         &PipelineState::default().set_clear_color(color), |_, mut shd_gate| {
-                   shd_gate.shade(&program, |interface, mut rdr_gate| {
+        surface.pipeline_builder().pipeline(
+                                            &back_buffer,
+                                            &PipelineState::default().set_clear_color(color),
+                                            |_, mut shd_gate| {
+                                                shd_gate.shade(&program, |interface, mut rdr_gate| {
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
@@ -165,7 +169,8 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
                                            tess_gate.render(mesh.slice(..));
                                        });
                            });
-               });
+                                            },
+        );
 
         surface.swap_buffers();
     }
