@@ -7,6 +7,7 @@ use std::thread;
 use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, SquareMatrix, Vector3};
 use crossbeam_channel::unbounded;
 use luminance::context::GraphicsContext;
+use luminance::pipeline::PipelineState;
 use luminance::render_state::RenderState;
 use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
@@ -152,14 +153,15 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
         let color = [0.122, 0.173, 0.227, 1.0];
 
         surface.pipeline_builder()
-               .pipeline(&back_buffer, color, |_, mut shd_gate| {
+               .pipeline(&back_buffer,
+                         &PipelineState::default().set_clear_color(color), |_, mut shd_gate| {
                    shd_gate.shade(&program, |interface, mut rdr_gate| {
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
                                interface.rotation.update(rotation.into());
 
-                               rdr_gate.render(RenderState::default(), |mut tess_gate| {
+                               rdr_gate.render(&RenderState::default(), |mut tess_gate| {
                                            tess_gate.render(mesh.slice(..));
                                        });
                            });
