@@ -1,6 +1,6 @@
 [package]
 name = "fragula"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["mandeep <mandeep@users.noreply.github.com>"]
 license = "Apache-2.0"
 edition = "2018"
@@ -12,11 +12,11 @@ readme = "README.md"
 
 [dependencies]
 cgmath = "0.17.0"
-crossbeam-channel = "0.3.8"
-luminance = "0.37.1"
-luminance-glfw = "0.11.0"
+crossbeam-channel = "0.3"
+luminance = "0.38"
+luminance-glfw = "0.12"
 luminance-derive = "0.5"
-glsl = "1.2.0"
-notify = "5.0.0-pre.1"
-try-guard = "0.2.0"
-wavefront_obj = "7.0.0"
+glsl = "4.0"
+notify = "=5.0.0-pre.1"
+try-guard = "0.2"
+wavefront_obj = "7.0"
