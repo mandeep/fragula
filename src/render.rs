@@ -18,11 +18,9 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let projection = create_perspective_matrix(0.1, 10.0, surface.width(), surface.height());
     let view = create_view_matrix(Point3::new(0.0, 0.5, 4.0));
 
-
     let vertex_shader = include_str!("vertex.glsl");
     let fragment_shader = create_fragment_shader(&fragment_path);
     let mut shader_program = create_shader_program(&vertex_shader.to_string(), &fragment_shader);
-
 
     let (sender, receiver, messenger, collector) = create_channels();
 
@@ -97,8 +95,8 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
             match event.op {
                 Ok(_) => {
                     let updated_fragment_shader = create_fragment_shader(&fragment_path);
-                    shader_program = create_shader_program(&vertex_shader.to_string(),
-                                                           &updated_fragment_shader);
+                    shader_program =
+                        create_shader_program(&vertex_shader.to_string(), &updated_fragment_shader);
                 }
                 Err(e) => println!("Error with event: {:?}", e),
             }
