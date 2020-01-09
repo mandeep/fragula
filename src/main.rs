@@ -2,6 +2,7 @@ use std::env;
 
 mod render;
 mod shader;
+mod transformations;
 mod vertex;
 mod wavefront;
 
