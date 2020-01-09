@@ -4,6 +4,7 @@ mod render;
 mod shader;
 mod transformations;
 mod vertex;
+mod watch;
 mod wavefront;
 
 use luminance_glfw::{GlfwSurface, Surface, WindowDim, WindowOpt};
