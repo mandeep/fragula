@@ -108,7 +108,8 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
                                             &back_buffer,
                                             &PipelineState::default().set_clear_color(color),
                                             |_, mut shd_gate| {
-                                                shd_gate.shade(&shader_program, |interface, mut rdr_gate| {
+                                                shd_gate.shade(&shader_program,
+                                                               |interface, mut rdr_gate| {
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
