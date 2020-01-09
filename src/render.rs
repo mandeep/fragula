@@ -4,7 +4,7 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::thread;
 
-use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, SquareMatrix, Vector3};
+use cgmath::{Matrix4, Point3, Rad, SquareMatrix, Vector3};
 use crossbeam_channel::unbounded;
 use luminance::context::GraphicsContext;
 use luminance::pipeline::PipelineState;
@@ -15,23 +15,13 @@ use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowEvent};
 use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 
 use crate::shader::ShaderInterface;
+use crate::transformations::{create_perspective_matrix, create_view_matrix};
 use crate::vertex::VertexSemantics;
 use crate::wavefront::Obj;
 
 pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String) {
-    let fov = Rad(PI / 2.0);
-    let z_near = 0.1;
-    let z_far = 10.0;
-
-    let projection = perspective(fov,
-                                 surface.width() as f32 / surface.height() as f32,
-                                 z_near,
-                                 z_far);
-
-    let eye = Point3::new(0.0, 0.5, 4.0);
-    let center = Point3::origin();
-    let up = Vector3::unit_y();
-    let view = Matrix4::<f32>::look_at(eye, center, up);
+    let projection = create_perspective_matrix(0.1, 10.0, surface.width(), surface.height());
+    let view = create_view_matrix(Point3::new(0.0, 0.5, 4.0));
 
     let (mut x_angle, mut y_angle, mut z_angle) = (0.0, 0.0, 0.0);
     let mut rotation: Matrix4<f32> = SquareMatrix::identity();
