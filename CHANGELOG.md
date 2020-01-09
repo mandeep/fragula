@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.2.3] - 2020-01-09
+### Added
+- Examples directory with example obj and fragment shader
+
+### Changed
+- Move non-render code into separate modules
+
+
 ## [0.2.2] - 2020-01-07
 ### Changed
 - Update fragula dependencies and pin notify-rs due to alpha semver breaking changes
