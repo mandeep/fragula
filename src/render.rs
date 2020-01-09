@@ -1,27 +1,32 @@
 use std::f32::consts::PI;
-use std::fs::File;
-use std::io::prelude::*;
-use std::path::Path;
-use std::thread;
 
 use cgmath::{Matrix4, Point3, Rad, SquareMatrix, Vector3};
-use crossbeam_channel::unbounded;
 use luminance::context::GraphicsContext;
 use luminance::pipeline::PipelineState;
 use luminance::render_state::RenderState;
-use luminance::shader::program::Program;
 use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowEvent};
-use notify::{RecommendedWatcher, RecursiveMode, Watcher};
 
-use crate::shader::ShaderInterface;
+use crate::shader::{create_fragment_shader, create_shader_program};
 use crate::transformations::{create_perspective_matrix, create_view_matrix};
-use crate::vertex::VertexSemantics;
+use crate::watch::{create_channels, spawn_watcher};
 use crate::wavefront::Obj;
 
 pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String) {
+    let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
+
     let projection = create_perspective_matrix(0.1, 10.0, surface.width(), surface.height());
     let view = create_view_matrix(Point3::new(0.0, 0.5, 4.0));
+
+
+    let vertex_shader = include_str!("vertex.glsl");
+    let fragment_shader = create_fragment_shader(&fragment_path);
+    let mut shader_program = create_shader_program(&vertex_shader.to_string(), &fragment_shader);
+
+
+    let (sender, receiver, messenger, collector) = create_channels();
+
+    spawn_watcher(&fragment_path, sender, receiver, messenger);
 
     let (mut x_angle, mut y_angle, mut z_angle) = (0.0, 0.0, 0.0);
     let mut rotation: Matrix4<f32> = SquareMatrix::identity();
@@ -29,44 +34,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let mut xyz_axis = Vector3::new(0.0, 0.0, 0.0);
     let mut translation: Matrix4<f32> = SquareMatrix::identity();
 
-    let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
-
-    let vertex_shader = include_str!("vertex.glsl");
-
-    let fragment_dirpath = Path::new(&fragment_path).parent()
-                                                    .unwrap()
-                                                    .display()
-                                                    .to_string();
-    let mut fragment_file = File::open(&fragment_path).unwrap();
-    let mut contents = String::new();
-    fragment_file.read_to_string(&mut contents).unwrap();
-    let fragment_shader = &contents;
-
-    let mut program: Program<VertexSemantics, (), ShaderInterface> =
-        Program::from_strings(None, vertex_shader, None, fragment_shader).unwrap()
-                                                                         .ignore_warnings();
-
     let back_buffer = surface.back_buffer().unwrap();
-
-    let (sender, receiver) = unbounded();
-    let (messenger, collector) = (sender.clone(), receiver.clone());
-
-    let updated_path = fragment_path.clone();
-
-    thread::spawn(move || {
-        let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
-        watcher.watch(fragment_dirpath, RecursiveMode::NonRecursive)
-               .unwrap();
-
-        loop {
-            match receiver.recv() {
-                Ok(event) => {
-                    messenger.send(event).unwrap();
-                }
-                Err(err) => println!("watch error: {:?}", err),
-            };
-        }
-    });
 
     'run: loop {
         for event in surface.poll_events() {
@@ -128,16 +96,9 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
             let event = collector.recv().unwrap();
             match event.op {
                 Ok(_) => {
-                    let mut updated_fragment_file = File::open(&updated_path).unwrap();
-                    let mut updated_contents = String::new();
-                    updated_fragment_file.read_to_string(&mut updated_contents)
-                                         .unwrap();
-                    let updated_fragment_shader = &updated_contents;
-                    program = Program::from_strings(None,
-                                                    vertex_shader,
-                                                    None,
-                                                    updated_fragment_shader).unwrap()
-                                                                            .ignore_warnings();
+                    let updated_fragment_shader = create_fragment_shader(&fragment_path);
+                    shader_program = create_shader_program(&vertex_shader.to_string(),
+                                                           &updated_fragment_shader);
                 }
                 Err(e) => println!("Error with event: {:?}", e),
             }
@@ -149,7 +110,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
                                             &back_buffer,
                                             &PipelineState::default().set_clear_color(color),
                                             |_, mut shd_gate| {
-                                                shd_gate.shade(&program, |interface, mut rdr_gate| {
+                                                shd_gate.shade(&shader_program, |interface, mut rdr_gate| {
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
