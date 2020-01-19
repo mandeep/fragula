@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - 2020-01-18
+### Added
+- Reset the model to its origin by pressing the C key
+
+### Changed
+- Rotation matrix is created from Euler angles so that rotation is persistent across axes
+
+
 ## [0.2.3] - 2020-01-09
 ### Added
 - Examples directory with example obj and fragment shader
