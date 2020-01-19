@@ -1,6 +1,4 @@
-use std::f32::consts::PI;
-
-use cgmath::{Matrix4, Point3, Rad, SquareMatrix, Vector3};
+use cgmath::{Deg, Euler, Matrix4, Point3, SquareMatrix, Vector3};
 use luminance::context::GraphicsContext;
 use luminance::pipeline::PipelineState;
 use luminance::render_state::RenderState;
@@ -40,41 +38,49 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
                 WindowEvent::Close | WindowEvent::Key(Key::Escape, _, Action::Release, _) => {
                     break 'run
                 }
+                WindowEvent::Key(Key::C, _, Action::Release, _)
+                | WindowEvent::Key(Key::C, _, Action::Repeat, _) => {
+                    x_angle = 0.0;
+                    y_angle = 0.0;
+                    z_angle = 0.0;
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
+                }
                 WindowEvent::Key(Key::W, _, Action::Release, _)
                 | WindowEvent::Key(Key::W, _, Action::Repeat, _) => {
                     x_angle -= 1.0;
-                    let rotation_angle = Rad(x_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_x(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::S, _, Action::Release, _)
                 | WindowEvent::Key(Key::S, _, Action::Repeat, _) => {
                     x_angle += 1.0;
-                    let rotation_angle = Rad(x_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_x(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::A, _, Action::Release, _)
                 | WindowEvent::Key(Key::A, _, Action::Repeat, _) => {
                     y_angle -= 1.0;
-                    let rotation_angle = Rad(y_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_y(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::D, _, Action::Release, _)
                 | WindowEvent::Key(Key::D, _, Action::Repeat, _) => {
                     y_angle += 1.0;
-                    let rotation_angle = Rad(y_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_y(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::Q, _, Action::Release, _)
                 | WindowEvent::Key(Key::Q, _, Action::Repeat, _) => {
                     z_angle += 1.0;
-                    let rotation_angle = Rad(z_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_z(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::E, _, Action::Release, _)
                 | WindowEvent::Key(Key::E, _, Action::Repeat, _) => {
                     z_angle -= 1.0;
-                    let rotation_angle = Rad(z_angle * PI / 180.0);
-                    rotation = Matrix4::from_angle_z(rotation_angle);
+                    let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+                    rotation = Matrix4::from(rotation_angle);
                 }
                 WindowEvent::Key(Key::Z, _, Action::Release, _)
                 | WindowEvent::Key(Key::Z, _, Action::Repeat, _) => {
