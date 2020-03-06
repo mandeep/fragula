@@ -8,7 +8,7 @@ use luminance::tess::{Mode, Tess, TessBuilder, TessError};
 use try_guard::verify;
 use wavefront_obj::obj;
 
-use crate::vertex::{Vertex, VertexIndex, VertexNormal, VertexPosition};
+use crate::vertex::{Vertex, VertexIndex, VertexNormal, VertexPosition, VertexTexture};
 
 #[derive(Debug)]
 pub struct Obj {
@@ -53,11 +53,18 @@ impl Obj {
                     if let Some(vertex_index) = vertex_cache.get(key) {
                         indices.push(*vertex_index);
                     } else {
-                        let p = object.vertices[key.0];
-                        let n = object.normals[key.2.ok_or("Missing vertex normals".to_owned())?];
-                        let position = VertexPosition::new([p.x as f32, p.y as f32, p.z as f32]);
-                        let normal = VertexNormal::new([n.x as f32, n.y as f32, n.z as f32]);
+                        let v = object.vertices[key.0];
+                        let vt = if object.tex_vertices.len() > 0 {
+                            object.tex_vertices[key.1.unwrap()]
+                        } else {
+                            wavefront_obj::obj::TVertex { u: 0.0, v: 0.0, w: 0.0 }
+                        };
+                        let vn = object.normals[key.2.ok_or("Missing vertex normals".to_owned())?];
+                        let position = VertexPosition::new([v.x as f32, v.y as f32, v.z as f32]);
+                        let texture = VertexTexture::new([vt.u as f32, vt.v as f32, vt.w as f32]);
+                        let normal = VertexNormal::new([vn.x as f32, vn.y as f32, vn.z as f32]);
                         let vertex = Vertex { position: position,
+                                              texture: texture,
                                               normal: normal };
                         let vertex_index = vertices.len() as VertexIndex;
 
