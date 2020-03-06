@@ -6,6 +6,8 @@ pub type VertexIndex = u32;
 pub enum VertexSemantics {
     #[sem(name = "position", repr = "[f32; 3]", wrapper = "VertexPosition")]
     Position,
+    #[sem(name = "texture", repr = "[f32; 3]", wrapper = "VertexTexture")]
+    Texture,
     #[sem(name = "normal", repr = "[f32; 3]", wrapper = "VertexNormal")]
     Normal,
 }
@@ -14,5 +16,6 @@ pub enum VertexSemantics {
 #[vertex(sem = "VertexSemantics")]
 pub struct Vertex {
     pub position: VertexPosition,
+    pub texture: VertexTexture,
     pub normal: VertexNormal,
 }
