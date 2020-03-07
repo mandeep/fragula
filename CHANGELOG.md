@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2020-03-06
+### Added
+- Parse texture coordinates from OBJ file and send to vertex shader
+
 ## [0.3.0] - 2020-01-18
 ### Added
 - Reset the model to its origin by pressing the C key
