@@ -17,6 +17,8 @@ pub struct ShaderInterface {
     pub rotation: Uniform<M44>,
     #[uniform(unbound)]
     pub translation: Uniform<M44>,
+    #[uniform(unbound)]
+    pub time: Uniform<f32>,
 }
 
 pub fn create_fragment_shader(file: &String) -> String {
