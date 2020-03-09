@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use cgmath::{Deg, Euler, Matrix4, Point3, SquareMatrix, Vector3};
 use luminance::context::GraphicsContext;
 use luminance::pipeline::PipelineState;
@@ -31,6 +33,8 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
     let mut translation: Matrix4<f32> = SquareMatrix::identity();
 
     let back_buffer = surface.back_buffer().unwrap();
+
+    let now = Instant::now();
 
     'run: loop {
         for event in surface.poll_events() {
@@ -109,6 +113,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
         }
 
         let color = [0.122, 0.173, 0.227, 1.0];
+        let time = Instant::now().duration_since(now).as_secs_f32();
 
         surface.pipeline_builder().pipeline(
                                             &back_buffer,
@@ -120,6 +125,7 @@ pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: St
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
                                interface.rotation.update(rotation.into());
+                               interface.time.update(time);
 
                                rdr_gate.render(&RenderState::default(), |mut tess_gate| {
                                            tess_gate.render(mesh.slice(..));
