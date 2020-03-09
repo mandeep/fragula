@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2020-03-09
+### Added
+- Add time and resolution uniform variables
+
 ## [0.4.0] - 2020-03-06
 ### Added
 - Parse texture coordinates from OBJ file and send to vertex shader
