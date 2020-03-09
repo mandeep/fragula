@@ -12,7 +12,10 @@ use crate::transformations::{create_perspective_matrix, create_view_matrix};
 use crate::watch::{create_channels, spawn_watcher};
 use crate::wavefront::Obj;
 
-pub fn render_loop(mut surface: GlfwSurface, obj_path: String, fragment_path: String, resolution: [u32; 2]) {
+pub fn render_loop(mut surface: GlfwSurface,
+                   obj_path: String,
+                   fragment_path: String,
+                   resolution: [u32; 2]) {
     let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
     let projection = create_perspective_matrix(0.1, 10.0, surface.width(), surface.height());

@@ -13,7 +13,7 @@ use crate::vertex::{Vertex, VertexIndex, VertexNormal, VertexPosition, VertexTex
 #[derive(Debug)]
 pub struct Obj {
     vertices: Vec<Vertex>,
-    indices: Vec<VertexIndex>,
+    indices:  Vec<VertexIndex>,
 }
 
 impl Obj {
@@ -59,13 +59,13 @@ impl Obj {
                         } else {
                             wavefront_obj::obj::TVertex { u: 0.0, v: 0.0, w: 0.0 }
                         };
-                        let vn = object.normals[key.2.ok_or("Missing vertex normals".to_owned())?];
+                        let vn =
+                            object.normals[key.2.ok_or("Missing vertex normals".to_owned())?];
                         let position = VertexPosition::new([v.x as f32, v.y as f32, v.z as f32]);
                         let texture = VertexTexture::new([vt.u as f32, vt.v as f32, vt.w as f32]);
                         let normal = VertexNormal::new([vn.x as f32, vn.y as f32, vn.z as f32]);
-                        let vertex = Vertex { position: position,
-                                              texture: texture,
-                                              normal: normal };
+                        let vertex =
+                            Vertex { position: position, texture: texture, normal: normal };
                         let vertex_index = vertices.len() as VertexIndex;
 
                         vertex_cache.insert(*key, vertex_index);

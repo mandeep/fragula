@@ -16,6 +16,6 @@ pub enum VertexSemantics {
 #[vertex(sem = "VertexSemantics")]
 pub struct Vertex {
     pub position: VertexPosition,
-    pub texture: VertexTexture,
-    pub normal: VertexNormal,
+    pub texture:  VertexTexture,
+    pub normal:   VertexNormal,
 }

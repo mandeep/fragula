@@ -22,8 +22,7 @@ pub fn spawn_watcher(file: &String,
 
     thread::spawn(move || {
         let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
-        watcher.watch(fragment_dirpath, RecursiveMode::NonRecursive)
-               .unwrap();
+        watcher.watch(fragment_dirpath, RecursiveMode::NonRecursive).unwrap();
 
         loop {
             match receiver.recv() {

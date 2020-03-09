@@ -10,17 +10,17 @@ use crate::vertex::VertexSemantics;
 #[derive(Debug, UniformInterface)]
 pub struct ShaderInterface {
     #[uniform(unbound)]
-    pub projection: Uniform<M44>,
+    pub projection:  Uniform<M44>,
     #[uniform(unbound)]
-    pub view: Uniform<M44>,
+    pub view:        Uniform<M44>,
     #[uniform(unbound)]
-    pub rotation: Uniform<M44>,
+    pub rotation:    Uniform<M44>,
     #[uniform(unbound)]
     pub translation: Uniform<M44>,
     #[uniform(unbound)]
-    pub time: Uniform<f32>,
+    pub time:        Uniform<f32>,
     #[uniform(unbound)]
-    pub resolution: Uniform<[u32; 2]>
+    pub resolution:  Uniform<[u32; 2]>,
 }
 
 pub fn create_fragment_shader(file: &String) -> String {

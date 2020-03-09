@@ -14,13 +14,10 @@ use crate::render::render_loop;
 fn main() {
     let resolution = [1200, 900];
 
-    let obj_path = env::args().skip(1)
-                              .next()
-                              .expect("Error: Invalid OBJ file path.");
+    let obj_path = env::args().skip(1).next().expect("Error: Invalid OBJ file path.");
 
-    let fragment_path = env::args().skip(2)
-                                   .next()
-                                   .expect("Error: Invalid fragment shader file path.");
+    let fragment_path =
+        env::args().skip(2).next().expect("Error: Invalid fragment shader file path.");
 
     let surface = GlfwSurface::new(WindowDim::Windowed(resolution[0], resolution[1]),
                                    "Fragula",
