@@ -1,3 +1,4 @@
+use std::path::Path;
 use std::time::Instant;
 
 use cgmath::{Deg, Euler, Matrix4, Point3, SquareMatrix, Vector3};
@@ -13,8 +14,8 @@ use crate::watch::{create_channels, spawn_watcher};
 use crate::wavefront::Obj;
 
 pub fn render_loop(mut surface: GlfwSurface,
-                   obj_path: String,
-                   fragment_path: String,
+                   obj_path: &Path,
+                   fragment_path: &Path,
                    resolution: [u32; 2]) {
     let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 

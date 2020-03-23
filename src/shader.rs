@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::Path;
 
 use luminance::linear::M44;
 use luminance::shader::program::{Program, Uniform};
@@ -23,7 +24,7 @@ pub struct ShaderInterface {
     pub resolution:  Uniform<[u32; 2]>,
 }
 
-pub fn create_fragment_shader(file: &String) -> String {
+pub fn create_fragment_shader(file: &Path) -> String {
     let mut fragment_file = File::open(file).unwrap();
     let mut fragment_shader = String::new();
     fragment_file.read_to_string(&mut fragment_shader).unwrap();

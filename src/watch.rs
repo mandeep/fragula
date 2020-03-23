@@ -14,11 +14,11 @@ pub fn create_channels(
     (sender, receiver, messenger, collector)
 }
 
-pub fn spawn_watcher(file: &String,
+pub fn spawn_watcher(file: &Path,
                      sender: Sender<RawEvent>,
                      receiver: Receiver<RawEvent>,
                      messenger: Sender<RawEvent>) {
-    let fragment_dirpath = Path::new(file).parent().unwrap().display().to_string();
+    let fragment_dirpath = file.parent().unwrap().display().to_string();
 
     thread::spawn(move || {
         let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
