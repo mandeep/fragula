@@ -3,12 +3,15 @@ use std::io::prelude::*;
 use std::path::Path;
 
 use luminance::linear::M44;
+use luminance::pipeline::BoundTexture;
+use luminance::pixel::NormUnsigned;
 use luminance::shader::program::{Program, Uniform};
+use luminance::texture::{Dim2};
 use luminance_derive::UniformInterface;
 
 use crate::vertex::VertexSemantics;
 
-#[derive(Debug, UniformInterface)]
+#[derive(UniformInterface)]
 pub struct ShaderInterface {
     #[uniform(unbound)]
     pub projection:  Uniform<M44>,
@@ -22,6 +25,8 @@ pub struct ShaderInterface {
     pub time:        Uniform<f32>,
     #[uniform(unbound)]
     pub resolution:  Uniform<[u32; 2]>,
+    #[uniform(unbound)]
+    pub texture_image: Uniform<&'static BoundTexture<'static, Dim2, NormUnsigned>>,
 }
 
 pub fn create_fragment_shader(file: &Path) -> String {
