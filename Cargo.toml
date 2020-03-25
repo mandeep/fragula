@@ -12,6 +12,7 @@ readme = "README.md"
 
 [dependencies]
 cgmath = "0.17.0"
+clap = "2.33"
 crossbeam-channel = "0.3"
 luminance = "0.38"
 luminance-glfw = "0.12"
