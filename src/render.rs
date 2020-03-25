@@ -16,6 +16,7 @@ use crate::wavefront::Obj;
 pub fn render_loop(mut surface: GlfwSurface,
                    obj_path: &Path,
                    fragment_path: &Path,
+                   texture_path: Option<&Path>,
                    resolution: [u32; 2]) {
     let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
