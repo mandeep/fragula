@@ -2,6 +2,7 @@ use std::path::Path;
 
 mod render;
 mod shader;
+mod texture;
 mod transformations;
 mod vertex;
 mod watch;
