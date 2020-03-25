@@ -39,6 +39,11 @@ fn main() {
 
     let obj = matches.value_of("obj").unwrap();
     let fragment = matches.value_of("shader").unwrap();
+    let texture_path = if let Some(texture_image) = matches.value_of("texture") {
+        Some(Path::new(texture_image))
+    } else {
+        None
+    };
 
 
     let obj_path = Path::new(&obj);
@@ -50,7 +55,7 @@ fn main() {
                                        WindowOpt::default());
 
         if let Ok(surface) = surface {
-            render_loop(surface, obj_path, fragment_path, resolution);
+            render_loop(surface, obj_path, fragment_path, texture_path, resolution);
         } else {
             panic!("Could not create surface.");
         }
