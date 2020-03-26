@@ -20,11 +20,12 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -t, --texture <texture>    Texture image to load.
+    -t, --texture <texture>    The file path to the texture image to load
 
 ARGS:
-    <obj>       Obj file to load.
-    <shader>    Fragment shader to load.
+    <obj>       The file path to the Obj file to load
+    <shader>    The file path to the fragment shader to load
+
 ```
 
 To use Fragula you can run `fragula` in a terminal with the path to the
