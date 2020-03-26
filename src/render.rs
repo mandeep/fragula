@@ -9,6 +9,7 @@ use luminance::tess::TessSliceIndex as _;
 use luminance_glfw::{Action, GlfwSurface, Key, Surface, WindowEvent};
 
 use crate::shader::{create_fragment_shader, create_shader_program};
+use crate::texture::load_image;
 use crate::transformations::{create_perspective_matrix, create_view_matrix};
 use crate::watch::{create_channels, spawn_watcher};
 use crate::wavefront::Obj;
@@ -26,6 +27,8 @@ pub fn render_loop(mut surface: GlfwSurface,
     let vertex_shader = include_str!("vertex.glsl");
     let fragment_shader = create_fragment_shader(&fragment_path);
     let mut shader_program = create_shader_program(&vertex_shader.to_string(), &fragment_shader);
+
+    let texture_image = load_image(&mut surface, texture_path);
 
     let (sender, receiver, messenger, collector) = create_channels();
 
@@ -123,15 +126,22 @@ pub fn render_loop(mut surface: GlfwSurface,
         surface.pipeline_builder().pipeline(
                                             &back_buffer,
                                             &PipelineState::default().set_clear_color(color),
-                                            |_, mut shd_gate| {
+                                            |pipeline, mut shd_gate| {
+
                                                 shd_gate.shade(&shader_program,
                                                                |interface, mut rdr_gate| {
+
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
                                interface.rotation.update(rotation.into());
                                interface.time.update(time);
                                interface.resolution.update(resolution);
+
+                               if let Some(image) = &texture_image {
+                                   let bounded_texture = pipeline.bind_texture(&image);
+                                   interface.texture_image.update(&bounded_texture);
+                               }
 
                                rdr_gate.render(&RenderState::default(), |mut tess_gate| {
                                            tess_gate.render(mesh.slice(..));
