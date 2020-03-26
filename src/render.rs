@@ -127,7 +127,6 @@ pub fn render_loop(mut surface: GlfwSurface,
                                             &back_buffer,
                                             &PipelineState::default().set_clear_color(color),
                                             |pipeline, mut shd_gate| {
-
                                                 shd_gate.shade(&shader_program,
                                                                |interface, mut rdr_gate| {
 

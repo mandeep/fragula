@@ -6,7 +6,7 @@ use luminance::linear::M44;
 use luminance::pipeline::BoundTexture;
 use luminance::pixel::NormUnsigned;
 use luminance::shader::program::{Program, Uniform};
-use luminance::texture::{Dim2};
+use luminance::texture::Dim2;
 use luminance_derive::UniformInterface;
 
 use crate::vertex::VertexSemantics;
@@ -14,17 +14,17 @@ use crate::vertex::VertexSemantics;
 #[derive(UniformInterface)]
 pub struct ShaderInterface {
     #[uniform(unbound)]
-    pub projection:  Uniform<M44>,
+    pub projection:    Uniform<M44>,
     #[uniform(unbound)]
-    pub view:        Uniform<M44>,
+    pub view:          Uniform<M44>,
     #[uniform(unbound)]
-    pub rotation:    Uniform<M44>,
+    pub rotation:      Uniform<M44>,
     #[uniform(unbound)]
-    pub translation: Uniform<M44>,
+    pub translation:   Uniform<M44>,
     #[uniform(unbound)]
-    pub time:        Uniform<f32>,
+    pub time:          Uniform<f32>,
     #[uniform(unbound)]
-    pub resolution:  Uniform<[u32; 2]>,
+    pub resolution:    Uniform<[u32; 2]>,
     #[uniform(unbound)]
     pub texture_image: Uniform<&'static BoundTexture<'static, Dim2, NormUnsigned>>,
 }

@@ -8,7 +8,7 @@ mod vertex;
 mod watch;
 mod wavefront;
 
-use clap::{Arg, App};
+use clap::{App, Arg};
 use luminance_glfw::{GlfwSurface, Surface, WindowDim, WindowOpt};
 
 use crate::render::render_loop;
@@ -16,27 +16,20 @@ use crate::render::render_loop;
 fn main() {
     let resolution = [1200, 900];
 
-    let matches = App::new("Fragula")
-        .version("0.6.0")
-        .author("Mandeep <github.com/mandeep>")
-        .arg(Arg::with_name("obj")
-            .help("Obj file to load.")
-            .required(true)
-            .index(1)
-            )
-        .arg(Arg::with_name("shader")
-            .help("Fragment shader to load.")
-            .required(true)
-            .index(2)
-            )
-        .arg(Arg::with_name("texture")
-            .help("Texture image to load.")
-            .short("t")
-            .long("texture")
-            .takes_value(true)
-            )
-        .get_matches();
-
+    let matches =
+        App::new("Fragula").version("0.6.0")
+                           .author("Mandeep <github.com/mandeep>")
+                           .arg(Arg::with_name("obj").help("Obj file to load.")
+                                                     .required(true)
+                                                     .index(1))
+                           .arg(Arg::with_name("shader").help("Fragment shader to load.")
+                                                        .required(true)
+                                                        .index(2))
+                           .arg(Arg::with_name("texture").help("Texture image to load.")
+                                                         .short("t")
+                                                         .long("texture")
+                                                         .takes_value(true))
+                           .get_matches();
 
     let obj = matches.value_of("obj").unwrap();
     let fragment = matches.value_of("shader").unwrap();
@@ -45,7 +38,6 @@ fn main() {
     } else {
         None
     };
-
 
     let obj_path = Path::new(&obj);
     let fragment_path = Path::new(&fragment);

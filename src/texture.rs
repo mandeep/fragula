@@ -19,7 +19,9 @@ fn load_from_disk(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, Nor
     tex
 }
 
-pub fn load_image(surface: &mut GlfwSurface, texture_path: Option<&Path>) -> Option<Texture<Dim2, NormRGB8UI>> {
+pub fn load_image(surface: &mut GlfwSurface,
+                  texture_path: Option<&Path>)
+                  -> Option<Texture<Dim2, NormRGB8UI>> {
     if let Some(path) = texture_path {
         if let Some(image) = read_image(path) {
             return Some(load_from_disk(surface, image));
