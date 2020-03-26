@@ -5,11 +5,11 @@ use luminance::pixel::NormRGB8UI;
 use luminance::texture::{Dim2, GenMipmaps, Sampler, Texture};
 use luminance_glfw::GlfwSurface;
 
-pub fn read_image(path: &Path) -> Option<RgbImage> {
+fn read_image(path: &Path) -> Option<RgbImage> {
     image::open(path).map(|img| img.flipv().to_rgb()).ok()
 }
 
-pub fn load_image(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, NormRGB8UI> {
+fn load_from_disk(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, NormRGB8UI> {
     let (width, height) = img.dimensions();
     let texels = img.into_raw();
 
@@ -17,4 +17,14 @@ pub fn load_image(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, Nor
     tex.upload_raw(GenMipmaps::No, &texels).unwrap();
 
     tex
+}
+
+pub fn load_image(surface: &mut GlfwSurface, texture_path: Option<&Path>) -> Option<Texture<Dim2, NormRGB8UI>> {
+    if let Some(path) = texture_path {
+        if let Some(image) = read_image(path) {
+            return Some(load_from_disk(surface, image));
+        }
+    }
+
+    None
 }
