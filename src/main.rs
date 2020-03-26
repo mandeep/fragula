@@ -19,13 +19,15 @@ fn main() {
     let matches =
         App::new("Fragula").version("0.6.0")
                            .author("Mandeep <github.com/mandeep>")
-                           .arg(Arg::with_name("obj").help("Obj file to load.")
+                           .arg(Arg::with_name("obj").help("The file path to the Obj file to load")
                                                      .required(true)
                                                      .index(1))
-                           .arg(Arg::with_name("shader").help("Fragment shader to load.")
+                           .arg(Arg::with_name("shader").help("The file path to the fragment \
+                                                               shader to load")
                                                         .required(true)
                                                         .index(2))
-                           .arg(Arg::with_name("texture").help("Texture image to load.")
+                           .arg(Arg::with_name("texture").help("The file path to the texture \
+                                                                image to load")
                                                          .short("t")
                                                          .long("texture")
                                                          .takes_value(true))
