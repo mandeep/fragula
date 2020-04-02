@@ -11,7 +11,8 @@ out vec3 vertex_normal;
 out vec3 texture_coordinate;
 
 void main() {
-    vertex_normal = normal;
+    mat4 model_view = view * translation * rotation;
+    vertex_normal = normalize(model_view * vec4(normal, 0.0)).xyz;
     texture_coordinate = texture;
-    gl_Position = projection * view * translation * rotation * vec4(position, 1.0);
+    gl_Position = projection * model_view * vec4(position, 1.0);
 }
