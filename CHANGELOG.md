@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2020-04-02
+### Fixed
+- Apply model view matrix to vertex normals
 
 ## [0.6.0] - 2020-03-26
 ### Added
