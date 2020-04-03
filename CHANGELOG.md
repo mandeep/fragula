@@ -1,9 +1,24 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2020-04-03
+### Added
+- Added a scale uniform variable so that the model can be scaled with key bindings
+- Added the ability to translate in the x and y directions
+- Added documentation in the README regarding key bindings
+
+### Fixed
+- Version, author, and package name now correctly pull from package information
+- Model now resets correctly when pressing the reset key (R)
+
+### Changed
+- Demo gif nows displays a more advanced fragment shader
+
+
 ## [0.6.1] - 2020-04-02
 ### Fixed
 - Apply model view matrix to vertex normals
+
 
 ## [0.6.0] - 2020-03-26
 ### Added
