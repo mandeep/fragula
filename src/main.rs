@@ -17,8 +17,10 @@ fn main() {
     let resolution = [1200, 900];
 
     let matches =
-        App::new("Fragula").version("0.6.0")
-                           .author("Mandeep <github.com/mandeep>")
+        App::new(env!("CARGO_PKG_NAME"))
+                           .version(env!("CARGO_PKG_VERSION"))
+                           .author(env!("CARGO_PKG_AUTHORS"))
+                           .about(env!("CARGO_PKG_DESCRIPTION"))
                            .arg(Arg::with_name("obj").help("The file path to the Obj file to load")
                                                      .required(true)
                                                      .index(1))
