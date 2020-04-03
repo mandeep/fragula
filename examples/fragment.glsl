@@ -19,7 +19,7 @@ void main() {
     float alpha = 1.0 / constant;
     float beta = sigma / constant;
 
-    vec3 light_direction = vec3(0.0, 1.5, 0.75);
+    vec3 light_direction = vec3(0.0, 1.5, 1.25);
     vec3 view_direction = vec3(0.0, 5.0, 5.0);
     vec3 albedo = vec3(1.0, 1.0, 1.0);
 
