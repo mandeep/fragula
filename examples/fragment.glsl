@@ -9,8 +9,6 @@ uniform float time;
 uniform vec2 resolution;
 uniform sampler2D image;
 
-out vec3 frag_color;
-
 const float PI = 3.14159265359;
 
 void main() {
@@ -34,5 +32,5 @@ void main() {
             t = max(nl, nv);
     }
 
-    frag_color = albedo * nl * (alpha + beta * s / t);
+    gl_FragColor = albedo * nl * (alpha + beta * s / t);
 }
