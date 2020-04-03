@@ -3,6 +3,11 @@
 // shader is not passed as a commandline argument
 
 in vec3 vertex_normal;
+in vec3 texture_coordinate;
+
+uniform float time;
+uniform vec2 resolution;
+uniform sampler2D image;
 
 out vec3 frag_color;
 
