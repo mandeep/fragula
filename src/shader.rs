@@ -22,6 +22,8 @@ pub struct ShaderInterface {
     #[uniform(unbound)]
     pub translation:   Uniform<M44>,
     #[uniform(unbound)]
+    pub scale:         Uniform<M44>,
+    #[uniform(unbound)]
     pub time:          Uniform<f32>,
     #[uniform(unbound)]
     pub resolution:    Uniform<[u32; 2]>,
