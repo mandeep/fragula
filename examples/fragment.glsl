@@ -19,7 +19,12 @@ void main() {
 
     vec3 light_direction = vec3(0.0, 1.5, 1.25);
     vec3 view_direction = vec3(0.0, 5.0, 5.0);
-    vec3 albedo = vec3(1.0, 1.0, 1.0);
+
+    vec4 albedo = vec4(1.0, 1.0, 1.0, 1.0);
+
+    if (textureSize(image, 0).x > 1 && textureSize(image, 0).y > 1) {
+        albedo = texture(image, texture_coordinate.xy);
+    }
 
     float nl = max(dot(vertex_normal, light_direction), 0.0);
     float nv = max(dot(vertex_normal, view_direction), 0.0);
