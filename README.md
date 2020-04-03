@@ -38,6 +38,24 @@ fragment shader you can use the `--texture` or `-t` flag:
 
     $  fragula my_3d_model.obj fragment.glsl -t my_image_texture.png
 
+You can scale, translate, and rotate your model using the following keys:
+
+```
+R: Reset the model back to its original state
+W: Rotate the model counter clockwise about the x axis
+S: Rotate the model clockwise about the x axis
+D: Rotate the model counter clockwise about the y axis
+A: Rotate the model clockwise about the y axis
+Q: Rotate the model counter clockwise about the z axis
+E: Rotate the model clockwise about the z axis
+C: Translate the model in the negative x direction
+V: Translate the model in the positive x direction
+B: Translate the model in the negative y direction
+N: Transalte the model in the positive y direction
+Z: Scale the model in negative increments
+X: Scale the model in positive increments
+```
+
 Demo
 ====
 ![demo](demo.gif)
