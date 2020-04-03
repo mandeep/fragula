@@ -22,3 +22,6 @@ glsl = "4.0"
 notify = "=5.0.0-pre.1"
 try-guard = "0.2"
 wavefront_obj = "7.0"
+
+[profile.release]
+lto = true
