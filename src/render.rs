@@ -40,6 +40,9 @@ pub fn render_loop(mut surface: GlfwSurface,
     let mut xyz_axis = Vector3::new(0.0, 0.0, 0.0);
     let mut translation: Matrix4<f32> = SquareMatrix::identity();
 
+    let mut scalar = 1.0;
+    let mut scale: Matrix4<f32> = SquareMatrix::identity();
+
     let back_buffer = surface.back_buffer().unwrap();
 
     let now = Instant::now();
@@ -116,13 +119,13 @@ pub fn render_loop(mut surface: GlfwSurface,
                 }
                 WindowEvent::Key(Key::Z, _, Action::Release, _)
                 | WindowEvent::Key(Key::Z, _, Action::Repeat, _) => {
-                    xyz_axis.z -= 0.1;
-                    translation = Matrix4::from_translation(xyz_axis);
+                    scalar -= 0.01;
+                    scale = Matrix4::from_scale(scalar);
                 }
                 WindowEvent::Key(Key::X, _, Action::Release, _)
                 | WindowEvent::Key(Key::X, _, Action::Repeat, _) => {
-                    xyz_axis.z += 0.1;
-                    translation = Matrix4::from_translation(xyz_axis);
+                    scalar += 0.01;
+                    scale = Matrix4::from_scale(scalar);
                 }
                 _ => (),
             }
@@ -154,6 +157,7 @@ pub fn render_loop(mut surface: GlfwSurface,
                                interface.view.update(view.into());
                                interface.translation.update(translation.into());
                                interface.rotation.update(rotation.into());
+                               interface.scale.update(scale.into());
                                interface.time.update(time);
                                interface.resolution.update(resolution);
 
