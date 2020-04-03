@@ -53,13 +53,19 @@ pub fn render_loop(mut surface: GlfwSurface,
                 WindowEvent::Close | WindowEvent::Key(Key::Escape, _, Action::Release, _) => {
                     break 'run
                 }
-                WindowEvent::Key(Key::C, _, Action::Release, _)
-                | WindowEvent::Key(Key::C, _, Action::Repeat, _) => {
+                WindowEvent::Key(Key::R, _, Action::Release, _)
+                | WindowEvent::Key(Key::R, _, Action::Repeat, _) => {
+                    xyz_axis = Vector3::new(0.0, 0.0, 0.0);
+                    scalar = 1.0;
+
                     x_angle = 0.0;
                     y_angle = 0.0;
                     z_angle = 0.0;
                     let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
+
                     rotation = Matrix4::from(rotation_angle);
+                    translation = SquareMatrix::identity();
+                    scale = SquareMatrix::identity();
                 }
                 WindowEvent::Key(Key::W, _, Action::Release, _)
                 | WindowEvent::Key(Key::W, _, Action::Repeat, _) => {
