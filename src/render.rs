@@ -94,6 +94,26 @@ pub fn render_loop(mut surface: GlfwSurface,
                     let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
                     rotation = Matrix4::from(rotation_angle);
                 }
+                WindowEvent::Key(Key::C, _, Action::Release, _)
+                | WindowEvent::Key(Key::C, _, Action::Repeat, _) => {
+                    xyz_axis.x -= 0.1;
+                    translation = Matrix4::from_translation(xyz_axis);
+                }
+                WindowEvent::Key(Key::V, _, Action::Release, _)
+                | WindowEvent::Key(Key::V, _, Action::Repeat, _) => {
+                    xyz_axis.x += 0.1;
+                    translation = Matrix4::from_translation(xyz_axis);
+                }
+                WindowEvent::Key(Key::B, _, Action::Release, _)
+                | WindowEvent::Key(Key::B, _, Action::Repeat, _) => {
+                    xyz_axis.y -= 0.1;
+                    translation = Matrix4::from_translation(xyz_axis);
+                }
+                WindowEvent::Key(Key::N, _, Action::Release, _)
+                | WindowEvent::Key(Key::N, _, Action::Repeat, _) => {
+                    xyz_axis.y += 0.1;
+                    translation = Matrix4::from_translation(xyz_axis);
+                }
                 WindowEvent::Key(Key::Z, _, Action::Release, _)
                 | WindowEvent::Key(Key::Z, _, Action::Repeat, _) => {
                     xyz_axis.z -= 0.1;
