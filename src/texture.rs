@@ -13,10 +13,10 @@ fn load_from_disk(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, Nor
     let (width, height) = img.dimensions();
     let texels = img.into_raw();
 
-    let tex = Texture::new(surface, [width, height], 0, Sampler::default()).unwrap();
-    tex.upload_raw(GenMipmaps::No, &texels).unwrap();
+    let texture = Texture::new(surface, [width, height], 0, Sampler::default()).unwrap();
+    texture.upload_raw(GenMipmaps::No, &texels).unwrap();
 
-    tex
+    texture
 }
 
 pub fn load_image(surface: &mut GlfwSurface,
