@@ -23,8 +23,13 @@ pub fn load_image(surface: &mut GlfwSurface,
                   texture_path: Option<&Path>)
                   -> Option<Texture<Dim2, NormRGB8UI>> {
     if let Some(path) = texture_path {
-        if let Some(image) = read_image(path) {
-            return Some(load_from_disk(surface, image));
+        if path.is_file() {
+            if let Some(image) = read_image(path) {
+                return Some(load_from_disk(surface, image));
+            }
+        } else {
+            eprintln!("The texture image path is not a valid file. \
+                   Please provide a path to a valid file.");
         }
     }
 
