@@ -1,6 +1,7 @@
 use cgmath::{perspective, EuclideanSpace, Matrix4, Point3, Rad, Vector3};
 use std::f32::consts::PI;
 
+/// Create a perspective projection matrix
 pub fn create_perspective_matrix(z_near: f32, z_far: f32, width: u32, height: u32) -> Matrix4<f32> {
     let fov = Rad(PI / 2.0);
 
@@ -9,6 +10,7 @@ pub fn create_perspective_matrix(z_near: f32, z_far: f32, width: u32, height: u3
     projection
 }
 
+/// Create a view matrix from the given eye vector
 pub fn create_view_matrix(eye: Point3<f32>) -> Matrix4<f32> {
     let center = Point3::origin();
     let up = Vector3::unit_y();
