@@ -1,5 +1,7 @@
 use std::path::Path;
 
+#[macro_use]
+mod macros;
 mod render;
 mod shader;
 mod texture;
@@ -57,6 +59,6 @@ fn main() {
             panic!("Could not create surface.");
         }
     } else {
-        panic!("Error: Either the Obj path or the Fragment shader path is not valid.")
+        exit!("Error: Either the Obj path or the Fragment shader path is not valid.")
     }
 }
