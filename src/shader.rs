@@ -31,6 +31,7 @@ pub struct ShaderInterface {
     pub texture_image: Uniform<&'static BoundTexture<'static, Dim2, NormUnsigned>>,
 }
 
+/// Read the contents of a fragment shader file into a String
 pub fn create_fragment_shader(file: &Path) -> String {
     let mut fragment_file = File::open(file).unwrap();
     let mut fragment_shader = String::new();
@@ -39,6 +40,7 @@ pub fn create_fragment_shader(file: &Path) -> String {
     fragment_shader
 }
 
+/// Create a shader program from a vertex shader and fragment shader
 pub fn create_shader_program(vertex_shader: &String,
                              fragment_shader: &String)
                              -> Program<VertexSemantics, (), ShaderInterface> {
