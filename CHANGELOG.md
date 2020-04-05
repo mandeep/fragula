@@ -1,6 +1,20 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+
+## [0.8.0] - 2020-04-05
+### Added
+- Added link time optimization to binary for better runtime performance
+
+### Fixed
+- Texture image file path is now checked for validity
+
+### Changed
+- Framebuffer is now resized to the window dimensions when the window is resized
+- Certain runtime errors now exit more gracefully
+- Demo gif in README shows status bar with save file actions
+
+
 ## [0.7.0] - 2020-04-03
 ### Added
 - Added a scale uniform variable so that the model can be scaled with key bindings
