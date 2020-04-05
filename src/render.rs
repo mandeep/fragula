@@ -43,11 +43,17 @@ pub fn render_loop(mut surface: GlfwSurface,
     let mut scalar = 1.0;
     let mut scale: Matrix4<f32> = SquareMatrix::identity();
 
-    let back_buffer = surface.back_buffer().unwrap();
+    let mut back_buffer = surface.back_buffer().unwrap();
+    let mut resize_buffer = false;
 
     let now = Instant::now();
 
     'run: loop {
+        if resize_buffer {
+            back_buffer = surface.back_buffer().unwrap();
+            resize_buffer = false;
+        }
+
         for event in surface.poll_events() {
             match event {
                 WindowEvent::Close | WindowEvent::Key(Key::Escape, _, Action::Release, _) => {
@@ -132,6 +138,9 @@ pub fn render_loop(mut surface: GlfwSurface,
                 | WindowEvent::Key(Key::X, _, Action::Repeat, _) => {
                     scalar += 0.01;
                     scale = Matrix4::from_scale(scalar);
+                }
+                WindowEvent::FramebufferSize(..) => {
+                    resize_buffer = true;
                 }
                 _ => (),
             }
