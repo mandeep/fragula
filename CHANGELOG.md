@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.9.0] - 2020-04-15
+### Added
+- Added the ability to use the left mouse button to rotate the model
+
+### Changed
+- Up, down, left, and right keys are now mapped to translate the model
+
+
 ## [0.8.0] - 2020-04-05
 ### Added
 - Added link time optimization to binary for better runtime performance
