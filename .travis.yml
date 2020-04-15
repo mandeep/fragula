@@ -10,9 +10,15 @@ matrix:
     - rust: nightly
 
 before_install:
-    - sudo apt-get update
-    - sudo apt-get install xorg-dev libglu1-mesa-dev
+  - sudo apt-get update
+  - sudo apt-get install xorg-dev libglu1-mesa-dev
 
 script:
   - cargo build --release --verbose --all
   - cargo test --verbose --all
+
+deploy:
+  provider: cargo
+  on:
+    branch: master
+  token: nSvKPW4ZaDNBG8L6Q9TMuW9HS18shQOken8Nape3mcQE1YsRt8aWI4/eCwb/lN1TViMvOK5FuWCVq1PXJxVEonBDTgwEdBZ8t62dGtWHUDDpaJBbeJ7f8TrAtcbx0Ryam24AghMYD3bm8d3QTTnCNU3ccyJmQ2zIWNHwKfJQDPIVC7u1gLmqTAeeiZBDoNSbq6TTcfTuxkVo1I6j3Y0oBKCBe7yctSDca44xud/0dQo2szJa4FKSk78Z2aFMn/cEBtNu45n+zW1gWoHfbj6/pyLYrXHo+vOxirp45V2x7fygkg9hJNFrj9u5DSULND06WKjJV2n4PEXS3KUug+NlladlknAgD6g9XAh0P9jhwke6DtoykYyaXoR3ihPwIL18JnE+IrcnbjTs+FJINnYX7jIuN5/q3yJ5fgeKZoYo84EnUQWRBh4Z6K7YxBt2ee3uccJ5dc3vUkL8h6z44nhIhd6J1SkZ0N6K+X/efO0auA9ca80CBpoQFHcPVP7gWWW3LQj3jxqyh+Qv5Fh24QqiKe1VouhlI3jjKaWkEUHmlhqP+AUKQp+e6lnYsm/yuc+ApxQ2KebjRQymDobOza9t/rJoMx6XkORWfwRA8NL7rmc6Na8nG8g4X9Wr2HubaUEdu0olYbTusnfZngjSGmCLYOb4RFkDdQvAnqt7PkX5VHs=
