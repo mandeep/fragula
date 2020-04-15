@@ -38,7 +38,8 @@ fragment shader you can use the `--texture` or `-t` flag:
 
     $  fragula examples/spot.obj examples/fragment.glsl -t examples/spot_texture.png
 
-You can scale, translate, and rotate your model using the following keys:
+The left mouse button can be used to rotate the model about the x and y axes. However, for
+finer control of the model the following key bindings are available:
 
 ```
 R: Reset the model back to its original state
@@ -48,12 +49,12 @@ D: Rotate the model counter clockwise about the y axis
 A: Rotate the model clockwise about the y axis
 Q: Rotate the model counter clockwise about the z axis
 E: Rotate the model clockwise about the z axis
-C: Translate the model in the negative x direction
-V: Translate the model in the positive x direction
-B: Translate the model in the negative y direction
-N: Transalte the model in the positive y direction
 Z: Scale the model in negative increments
 X: Scale the model in positive increments
+Up: Transalte the model in the positive y direction
+Down: Translate the model in the negative y direction
+Left: Translate the model in the negative x direction
+Right: Translate the model in the positive x direction
 ```
 
 The vertex shader can be found in the `src` directory and contains the following code:
