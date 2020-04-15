@@ -45,9 +45,9 @@ pub fn render_loop(mut surface: GlfwSurface,
 
     let mut back_buffer = surface.back_buffer().unwrap();
     let mut resize_buffer = false;
+    let mut cursor_pressed = false;
     let mut cursor_moved = false;
-    let mut cursor_position = (std::f32::MIN, std::f32::MIN);
-    let mut last_cursor_position = cursor_position;
+    let (mut x_diff, mut y_diff) = (0.0f64, 0.0f64);
 
     let now = Instant::now();
 
@@ -146,26 +146,26 @@ pub fn render_loop(mut surface: GlfwSurface,
                     resize_buffer = true;
                 }
                 WindowEvent::MouseButton(MouseButton::Button1, Action::Press, _) => {
-                    cursor_moved = true;
+                    cursor_pressed = true;
                 }
                 WindowEvent::CursorPos(x, y) => {
-                    if cursor_moved {
-                        if cursor_position == (std::f32::MIN, std::f32::MIN) {
-                            cursor_position = (x as f32, y as f32);
+                    if cursor_pressed {
+                        if cursor_moved {
+                            x_diff = x - y_angle as f64;
+                            y_diff = y - x_angle as f64;
+                            cursor_moved = false;
                         }
 
-                        y_angle = x as f32 - cursor_position.0;
-                        x_angle = y as f32 - cursor_position.1;
+                        y_angle = (x - x_diff) as f32;
+                        x_angle = (y - y_diff) as f32;
 
                         let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
                         rotation = Matrix4::from(rotation_angle);
-
-                        last_cursor_position = (x as f32, y as f32);
                     }
                 }
                 WindowEvent::MouseButton(MouseButton::Button1, Action::Release, _) => {
-                    cursor_moved = false;
-                    cursor_position = last_cursor_position;
+                    cursor_pressed = false;
+                    cursor_moved = true;
                 }
                 _ => (),
             }
