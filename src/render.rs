@@ -46,7 +46,7 @@ pub fn render_loop(mut surface: GlfwSurface,
     let mut back_buffer = surface.back_buffer().unwrap();
     let mut resize_buffer = false;
     let mut cursor_pressed = false;
-    let mut cursor_moved = false;
+    let mut cursor_moved = true;
     let (mut x_diff, mut y_diff) = (0.0f64, 0.0f64);
 
     let now = Instant::now();
