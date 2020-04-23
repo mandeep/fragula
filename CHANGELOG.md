@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.9.1] - 2020-04-23
+### Changed
+- Decreased mouse movement by 20% so that model movement is smoother
+
+
 ## [0.9.0] - 2020-04-15
 ### Added
 - Added the ability to use the left mouse button to rotate the model
