@@ -157,8 +157,8 @@ pub fn render_loop(mut surface: GlfwSurface,
                             cursor_moved = false;
                         }
 
-                        y_angle = (x - x_diff) as f32;
-                        x_angle = (y - y_diff) as f32;
+                        y_angle = (x - x_diff) as f32 * 0.8;
+                        x_angle = (y - y_diff) as f32 * 0.8;
 
                         let rotation_angle = Euler::new(Deg(x_angle), Deg(y_angle), Deg(z_angle));
                         rotation = Matrix4::from(rotation_angle);
