@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 
+## [0.9.2] - 2020-09-13
+### Changed
+- Example fragment shader now explicity defines output fragment variable
+
 ## [0.9.1] - 2020-04-23
 ### Changed
 - Decreased mouse movement by 20% so that model movement is smoother
