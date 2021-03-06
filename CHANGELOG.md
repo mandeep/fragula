@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [0.10.0] - 2021-03-06
+### Changed
+- The translation, rotation, and scale world space matrices have been combined into a single Uniform model matrix
+
 
 ## [0.9.2] - 2020-09-13
 ### Changed
