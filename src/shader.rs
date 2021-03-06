@@ -14,15 +14,11 @@ use crate::vertex::VertexSemantics;
 #[derive(UniformInterface)]
 pub struct ShaderInterface {
     #[uniform(unbound)]
+    pub model:         Uniform<M44>,
+    #[uniform(unbound)]
     pub projection:    Uniform<M44>,
     #[uniform(unbound)]
     pub view:          Uniform<M44>,
-    #[uniform(unbound)]
-    pub rotation:      Uniform<M44>,
-    #[uniform(unbound)]
-    pub translation:   Uniform<M44>,
-    #[uniform(unbound)]
-    pub scale:         Uniform<M44>,
     #[uniform(unbound)]
     pub time:          Uniform<f32>,
     #[uniform(unbound)]

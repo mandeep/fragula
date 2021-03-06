@@ -194,11 +194,9 @@ pub fn render_loop(mut surface: GlfwSurface,
                                                 shd_gate.shade(&shader_program,
                                                                |interface, mut rdr_gate| {
 
+                               interface.model.update((translation * rotation * scale).into());
                                interface.projection.update(projection.into());
                                interface.view.update(view.into());
-                               interface.translation.update(translation.into());
-                               interface.rotation.update(rotation.into());
-                               interface.scale.update(scale.into());
                                interface.time.update(time);
                                interface.resolution.update(resolution);
 
