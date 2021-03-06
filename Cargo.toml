@@ -1,6 +1,6 @@
 [package]
 name = "fragula"
-version = "0.9.2"
+version = "0.10.0"
 authors = ["mandeep <mandeep@users.noreply.github.com>"]
 license = "Apache-2.0"
 edition = "2018"
