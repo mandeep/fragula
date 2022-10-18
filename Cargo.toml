@@ -1,6 +1,6 @@
 [package]
 name = "fragula"
-version = "0.10.0"
+version = "0.11.0"
 authors = ["mandeep <mandeep@users.noreply.github.com>"]
 license = "Apache-2.0"
 edition = "2018"
@@ -21,7 +21,7 @@ luminance-derive = "0.5"
 glsl = "4.0"
 notify = "=5.0.0-pre.1"
 try-guard = "0.2"
-wavefront_obj = "7.0"
+wavefront_obj = "10.0"
 
 [profile.release]
 lto = true
