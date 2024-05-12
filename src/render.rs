@@ -184,7 +184,8 @@ pub fn render_loop(mut surface: GlfwSurface,
             }
         }
 
-        let color = [0.122, 0.173, 0.227, 1.0];
+        let grey = 0.85;
+        let color = [grey, grey, grey, 1.0];
         let time = Instant::now().duration_since(now).as_secs_f32();
 
         surface.pipeline_builder().pipeline(
