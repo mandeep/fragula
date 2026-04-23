@@ -14,15 +14,15 @@ use crate::vertex::VertexSemantics;
 #[derive(UniformInterface)]
 pub struct ShaderInterface {
     #[uniform(unbound)]
-    pub model:         Uniform<M44>,
+    pub model: Uniform<M44>,
     #[uniform(unbound)]
-    pub projection:    Uniform<M44>,
+    pub projection: Uniform<M44>,
     #[uniform(unbound)]
-    pub view:          Uniform<M44>,
+    pub view: Uniform<M44>,
     #[uniform(unbound)]
-    pub time:          Uniform<f32>,
+    pub time: Uniform<f32>,
     #[uniform(unbound)]
-    pub resolution:    Uniform<[u32; 2]>,
+    pub resolution: Uniform<[u32; 2]>,
     #[uniform(unbound)]
     pub texture_image: Uniform<&'static BoundTexture<'static, Dim2, NormUnsigned>>,
 }
@@ -37,12 +37,14 @@ pub fn create_fragment_shader(file: &Path) -> String {
 }
 
 /// Create a shader program from a vertex shader and fragment shader
-pub fn create_shader_program(vertex_shader: &String,
-                             fragment_shader: &String)
-                             -> Program<VertexSemantics, (), ShaderInterface> {
+pub fn create_shader_program(
+    vertex_shader: &String,
+    fragment_shader: &String,
+) -> Program<VertexSemantics, (), ShaderInterface> {
     let program: Program<VertexSemantics, (), ShaderInterface> =
-        Program::from_strings(None, vertex_shader, None, &fragment_shader).unwrap()
-                                                                          .ignore_warnings();
+        Program::from_strings(None, vertex_shader, None, &fragment_shader)
+            .unwrap()
+            .ignore_warnings();
 
     program
 }

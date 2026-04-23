@@ -22,17 +22,20 @@ fn load_from_disk(surface: &mut GlfwSurface, img: RgbImage) -> Texture<Dim2, Nor
 }
 
 /// Read a file from a path and load it into a Luminance Texture
-pub fn load_image(surface: &mut GlfwSurface,
-                  texture_path: Option<&Path>)
-                  -> Option<Texture<Dim2, NormRGB8UI>> {
+pub fn load_image(
+    surface: &mut GlfwSurface,
+    texture_path: Option<&Path>,
+) -> Option<Texture<Dim2, NormRGB8UI>> {
     if let Some(path) = texture_path {
         if path.is_file() {
             if let Some(image) = read_image(path) {
                 return Some(load_from_disk(surface, image));
             }
         } else {
-            eprintln!("The texture image path is not a valid file. \
-                   Please provide a path to a valid file.");
+            eprintln!(
+                "The texture image path is not a valid file. \
+                   Please provide a path to a valid file."
+            );
         }
     }
 

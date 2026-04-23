@@ -10,10 +10,12 @@ use notify::{RawEvent, RecommendedWatcher, RecursiveMode, Watcher};
 /// threads can rely on the same signals. This allows the expression
 /// `match receiver.recv()` to be used in the spawn_watcher function
 /// as well as in the render loop.
-pub fn create_channels(
-    )
-    -> (Sender<RawEvent>, Receiver<RawEvent>, Sender<RawEvent>, Receiver<RawEvent>)
-{
+pub fn create_channels() -> (
+    Sender<RawEvent>,
+    Receiver<RawEvent>,
+    Sender<RawEvent>,
+    Receiver<RawEvent>,
+) {
     let (sender, receiver) = unbounded();
     let (messenger, collector) = (sender.clone(), receiver.clone());
 
@@ -21,15 +23,19 @@ pub fn create_channels(
 }
 
 /// Spawn a watcher thread that watches the given file for edits
-pub fn spawn_watcher(file: &Path,
-                     sender: Sender<RawEvent>,
-                     receiver: Receiver<RawEvent>,
-                     messenger: Sender<RawEvent>) {
+pub fn spawn_watcher(
+    file: &Path,
+    sender: Sender<RawEvent>,
+    receiver: Receiver<RawEvent>,
+    messenger: Sender<RawEvent>,
+) {
     let fragment_dirpath = file.parent().unwrap().display().to_string();
 
     thread::spawn(move || {
         let mut watcher: RecommendedWatcher = Watcher::new_immediate(sender).unwrap();
-        watcher.watch(fragment_dirpath, RecursiveMode::NonRecursive).unwrap();
+        watcher
+            .watch(fragment_dirpath, RecursiveMode::NonRecursive)
+            .unwrap();
 
         loop {
             match receiver.recv() {

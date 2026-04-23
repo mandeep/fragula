@@ -14,11 +14,13 @@ use crate::transformations::{create_perspective_matrix, create_view_matrix};
 use crate::watch::{create_channels, spawn_watcher};
 use crate::wavefront::Obj;
 
-pub fn render_loop(mut surface: GlfwSurface,
-                   obj_path: &Path,
-                   fragment_path: &Path,
-                   texture_path: Option<&Path>,
-                   resolution: [u32; 2]) {
+pub fn render_loop(
+    mut surface: GlfwSurface,
+    obj_path: &Path,
+    fragment_path: &Path,
+    texture_path: Option<&Path>,
+    resolution: [u32; 2],
+) {
     let mesh = Obj::load(obj_path).unwrap().to_tess(&mut surface).unwrap();
 
     let projection = create_perspective_matrix(0.1, 10.0, surface.width(), surface.height());
@@ -191,28 +193,28 @@ pub fn render_loop(mut surface: GlfwSurface,
         let time = Instant::now().duration_since(now).as_secs_f32();
 
         surface.pipeline_builder().pipeline(
-                                            &back_buffer,
-                                            &PipelineState::default().set_clear_color(color),
-                                            |pipeline, mut shd_gate| {
-                                                shd_gate.shade(&shader_program,
-                                                               |interface, mut rdr_gate| {
+            &back_buffer,
+            &PipelineState::default().set_clear_color(color),
+            |pipeline, mut shd_gate| {
+                shd_gate.shade(&shader_program, |interface, mut rdr_gate| {
+                    interface
+                        .model
+                        .update((translation * rotation * scale).into());
+                    interface.projection.update(projection.into());
+                    interface.view.update(view.into());
+                    interface.time.update(time);
+                    interface.resolution.update(resolution);
 
-                               interface.model.update((translation * rotation * scale).into());
-                               interface.projection.update(projection.into());
-                               interface.view.update(view.into());
-                               interface.time.update(time);
-                               interface.resolution.update(resolution);
+                    if let Some(image) = &texture_image {
+                        let bounded_texture = pipeline.bind_texture(&image);
+                        interface.texture_image.update(&bounded_texture);
+                    }
 
-                               if let Some(image) = &texture_image {
-                                   let bounded_texture = pipeline.bind_texture(&image);
-                                   interface.texture_image.update(&bounded_texture);
-                               }
-
-                               rdr_gate.render(&RenderState::default(), |mut tess_gate| {
-                                           tess_gate.render(mesh.slice(..));
-                                       });
-                           });
-                                            },
+                    rdr_gate.render(&RenderState::default(), |mut tess_gate| {
+                        tess_gate.render(mesh.slice(..));
+                    });
+                });
+            },
         );
 
         surface.swap_buffers();
